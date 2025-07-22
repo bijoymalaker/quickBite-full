@@ -1,4 +1,5 @@
 <template>
+  <Layout>
     <div class="container my-5">
         <header class="login-header">
             <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-and-shapes-3/177800/130-512.png"
@@ -21,8 +22,10 @@
             <a href="">Forgot your Password?</a>
         </footer>
     </div>
+  </Layout>
 </template>
 <script>
+import Layout from '@/layout/Layout.vue';
 export default {
 
     data() {
@@ -54,6 +57,9 @@ export default {
             this.errors.hasError = false;
             this.errors.message = '';
         }
+    },
+    components: {
+        Layout
     }
 }
 </script>

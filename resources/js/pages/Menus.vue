@@ -1,7 +1,8 @@
 <template>
-    <div class="container my-5">
-        <h2 class="fw-bold text-center text-primary">Browse Our Menu</h2>
-        <p class="text-center text-muted">Discover delicious meals and snacks at QuickBite.</p>
+    <Layout>
+        <div class="container my-5">
+            <h2 class="fw-bold text-center text-primary">Browse Our Menu</h2>
+            <p class="text-center text-muted">Discover delicious meals and snacks at QuickBite.</p>
 
         <!-- Category Tabs -->
         <ul class="nav nav-pills justify-content-center mb-4">
@@ -30,9 +31,13 @@
             </div>
         </div>
     </div>
+    </Layout>
 </template>
 
 <script>
+
+import Layout from '@/layout/Layout.vue';
+
 export default {
     data() {
         return {
@@ -60,6 +65,9 @@ export default {
             this.cart.push(item);
             alert(`${item.name} added to cart!`);
         }
+    },
+    components: {
+        Layout
     }
 };
 </script>

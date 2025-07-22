@@ -1,4 +1,5 @@
 <template>
+  <Layout>
   <div>
     <div class="container bg-light p-4 d-flex justify-content-between align-items-center position-relative res-bg">
       <div>
@@ -55,10 +56,10 @@
                       height="80" />
                   </div>
                   <div class="mt-3 d-flex flex-wrap gap-2">
-                    <button class="btn btn-dark">Small &#163{{ food.Small }}</button>
-                    <button class="btn btn-success">Medium &#163{{ food.Medium }}</button>
-                    <button class="btn btn-primary">Large &#163{{ food.Large }}</button>
-                    <button class="btn btn-warning">XL Large with Sauces &#163{{ food.XLarge }}</button>
+                    <button class="btn btn-dark">Small &#163;{{ food.Small }}</button>
+                    <button class="btn btn-success">Medium &#163;{{ food.Medium }}</button>
+                    <button class="btn btn-primary">Large &#163;{{ food.Large }}</button>
+                    <button class="btn btn-warning">XL Large with Sauces &#163;{{ food.XLarge }}</button>
                   </div>
                 </div>
               </div>
@@ -77,6 +78,7 @@
 
     <ResDetails />
   </div>
+  </Layout>
 </template>
 <script>
 
@@ -95,7 +97,7 @@ import Ellipse64 from "../assets/imgs/restuarent/Ellipse64.png";
 import Ellipse65 from "../assets/imgs/restuarent/Ellipse65.png";
 import Rectangle13 from "../assets/imgs/restuarent/Rectangle13.png";
 import Rectangle15 from "../assets/imgs/restuarent/Rectangle15.png";
-import { computed } from "vue";
+import Layout from "@/layout/Layout.vue";
 
 
 
@@ -231,7 +233,7 @@ export default {
         }
       },
     components: {
-      ShoppingBacket, ResDetails
+      ShoppingBacket, ResDetails, Layout
     },
   };
 </script>
