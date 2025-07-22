@@ -1,5 +1,6 @@
 <template>
   <Layout>
+    <Title>Restaurant - Pretty Picks</Title>
   <div>
     <div class="container bg-light p-4 d-flex justify-content-between align-items-center position-relative res-bg">
       <div>

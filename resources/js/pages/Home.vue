@@ -46,6 +46,7 @@ export default {
 
 
 <template>
+    <title>Home - Pretty Picks</title>
     <Layout>
     <div>
         <!-- Top banner part start  -->

@@ -1,5 +1,6 @@
 <template>
     <Layout>
+    <title>Offers - Pretty Picks</title>
     <div class="container my-5">
         <h2 class="fw-bold text-center text-primary">Offers Page</h2>
         <p class="text-center text-muted">Discover delicious meals and snacks at QuickBite.</p>

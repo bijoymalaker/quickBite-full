@@ -1,4 +1,5 @@
 <template>
+  <title>Login - Pretty Picks</title>
   <Layout>
     <div class="container my-5">
         <header class="login-header">
