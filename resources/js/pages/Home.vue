@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 // Restaurants name and image
 import Rectangle7 from '../assets/imgs/Rectangle7.png';
 import Rectangle8 from '../assets/imgs/Rectangle8.png';
@@ -96,24 +96,26 @@ export default {
             <section>
                 <div class="container my-5">
                     <!-- Header Section -->
-                    <div class="row align-items-center">
-                        <div class="col-md-6 mb-4">
+                    <div class="row align-items-center mb-4">
+                        <div class="col-md-6 col-12">
                             <h2 class="deals-header">Up to -40% 🍔 QuickBite exclusive deals</h2>
-                            <!-- Category Filter -->
+                        </div>
+                        <!-- Category Filter -->
+                        <div class="col-auto">
                             <div class="category-filter d-none d-md-flex">
                                 <a v-for="item in foodName" :key="item" href="#" class=""> {{ item }}</a>
                             </div>
-                        </div>
-                        <div class="col-md-6 mb-4">
                             <!-- Dropdown for mobile devices -->
-                            <div class="category-filter d-flex d-md-none">
-                                <select class="form-select">
-                                    <option v-for="item in foodName" :key="item">{{ item }}</option>
-                                </select>
-                            </div>
+                        <div class="category-filter d-flex d-md-none">
+                            <select class="form-select">
+                                <option v-for="item in foodName" :key="item">{{ item }}</option>
+                            </select>
                         </div>
+                        </div>
+
+                        
                     </div>
-                </div>
+                
 
                 <!-- Deals Cards -->
                 <div class="row g-4">
@@ -131,6 +133,7 @@ export default {
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </section>
 
