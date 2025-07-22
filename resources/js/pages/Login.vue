@@ -13,7 +13,7 @@
                 <label for="">Password</label>
                 <input type="password" v-model="password">
                 <div class="warning" v-show="errors.hasError"> {{ errors.message }} </div>
-                <button class="login-btn">Login</button>
+                <button class="login-btn" type="submit">Login</button>
             </form>
             <form action="">
                 <button class="signup-btn">Register</button>

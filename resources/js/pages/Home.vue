@@ -1,4 +1,4 @@
-// eslint-disable-next-line vue/block-lang
+
 <script>
 
 // Restaurants name and image
