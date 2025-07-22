@@ -3,10 +3,10 @@
     <nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top py-0">
       <div class="container">
         <!-- Logo and Brand Name -->
-        <a class="navbar-brand" href="#">
+        <Link class="navbar-brand" href="/">
           <img src="../assets/imgs/quickbiteLogo_noBG.png" alt="Logo" class=" h-50"/>
           QuickBite
-        </a>
+        </Link>
 
         <!-- Toggle Button for Mobile -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -18,29 +18,31 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
           <ul class="navbar-nav mb-3 mb-lg-0">
             <li class="nav-item">
-              <router-link to="/" class=" nav-link">Home</router-link>
+              <Link href="/" class="nav-link">Home</Link>
             </li>
             <li class="nav-item">
-              <router-link to="/menus" class=" nav-link">Browse Menu</router-link>
+              <Link href="menus" class="nav-link">Menus</Link>
             </li>
             <li class="nav-item">
-              <router-link to="/offers" class=" nav-link">Special Offers</router-link>
+              <Link href="offers" class="nav-link">Offers</Link>
             </li>
             <li class="nav-item">
-              <router-link to="/restaurants" class=" nav-link">Restaurants</router-link>
+              <Link href="restaurants" class="nav-link">Restaurants</Link>
             </li>
             <li class="nav-item">
-              <router-link to="/tracking" class=" nav-link">Track Order</router-link>
+              <Link href="tracking" class="nav-link">Track your Order</Link>
             </li>
           </ul>
 
           <!-- Login/Signup Button -->
-          <router-link to="/login" class="login-signup-btn ms-lg-3"><font-awesome-icon icon="fa-solid fa-person-circle-plus" class="me-2 text-warning" />Login/Signup</router-link>
+          <Link href="login" class="login-signup-btn ms-lg-3"><font-awesome-icon icon="fa-solid fa-person-circle-plus" class="me-2 text-warning" />Login/Signup</Link>
         </div>
       </div>
     </nav>
 </template>
-<script>
-export default {};
+<script setup>
+
+import { Link } from '@inertiajs/vue3';
+
 </script>
 <style></style>

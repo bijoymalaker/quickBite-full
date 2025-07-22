@@ -7,23 +7,23 @@ Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
 
-Route::get('/menus', function () {
+Route::get('menus', function () {
     return Inertia::render('Menus');
 })->name('menus');
 
-Route::get('/offers', function () {
+Route::get('offers', function () {
     return Inertia::render('Offers');
 })->name('offers');
 
-Route::get('/restaurants', function () {
+Route::get('restaurants', function () {
     return Inertia::render('Restaurants');
 })->name('restaurants');
 
-Route::get('/tracking', function () {
+Route::get('tracking', function () {
     return Inertia::render('Tracking');
 })->name('tracking');
 
-Route::get('/login', function () {
+Route::get('login', function () {
     return Inertia::render('Login');
 })->name('login');
 
