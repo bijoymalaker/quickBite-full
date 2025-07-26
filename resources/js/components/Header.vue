@@ -53,6 +53,5 @@ import {route} from 'ziggy-js';
     color: white !important;
     border-radius: 20px;
     padding: 6px 15px;
-    transition: background-color 0.5s;
 }
 </style>
