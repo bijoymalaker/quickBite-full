@@ -18,19 +18,19 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
           <ul class="navbar-nav mb-3 mb-lg-0">
             <li class="nav-item">
-              <Link href="/" class="nav-link">Home</Link>
+              <Link :href="route('home')" class="nav-link" :class="{ active: route().current('home') }">Home</Link>
             </li>
             <li class="nav-item">
-              <Link href="menus" class="nav-link">Menus</Link>
+              <Link :href="route('menus')" class="nav-link" :class="{ active: route().current('menus') }">Menus</Link>
             </li>
             <li class="nav-item">
-              <Link href="offers" class="nav-link">Offers</Link>
+              <Link :href="route('offers')" class="nav-link" :class="{ active: route().current('offers') }">Offers</Link>
             </li>
             <li class="nav-item">
-              <Link href="restaurants" class="nav-link">Restaurants</Link>
+              <Link :href="route('restaurants')" class="nav-link" :class="{ active: route().current('restaurants') }">Restaurants</Link>
             </li>
             <li class="nav-item">
-              <Link href="tracking" class="nav-link">Track your Order</Link>
+              <Link :href="route('tracking')" class="nav-link" :class="{ active: route().current('tracking') }">Track your Order</Link>
             </li>
           </ul>
 
@@ -40,9 +40,10 @@
       </div>
     </nav>
 </template>
-<script setup>
 
+<script setup>
 import { Link } from '@inertiajs/vue3';
+import {route} from 'ziggy-js';
 
 </script>
 <style></style>
