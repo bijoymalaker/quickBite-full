@@ -41,9 +41,18 @@
     </nav>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import {route} from 'ziggy-js';
 
 </script>
-<style></style>
+<style scoped>
+
+.nav-item .nav-link.active {
+    background-color: #FF7E00;
+    color: white !important;
+    border-radius: 20px;
+    padding: 6px 15px;
+    transition: background-color 0.5s;
+}
+</style>
