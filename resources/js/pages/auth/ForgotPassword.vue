@@ -1,5 +1,5 @@
 <template>
-  <title>Login - Pretty Picks</title>
+  <title>Forgot Password - Pretty Picks</title>
   <Layout>
     <div class="container my-5">
         <header class="login-header">
@@ -7,72 +7,51 @@
                 alt="" class="login-avatar">
         </header>
         <div class="login-login">
-            <form action="#" @submit.prevent="onSubmit" @keydown="clearErrors">
-                <label for="">Email</label>
-                <input type="text" v-model="username">
-                <label for="">Password</label>
-                <input type="password" v-model="password">
-                <div class="warning" v-show="errors.hasError"> {{ errors.message }} </div>
-                <button class="login-btn" type="submit">Login</button>
+            <form @submit.prevent="submit">
+                <label for="email">Email</label>
+                <input id="email" type="email" v-model="form.email" required>
+                <div v-if="form.errors.email" class="text-danger">{{ form.errors.email }}</div>
+                
+                <div v-if="status" class="text-success">{{ status }}</div>
+                
+                <button class="login-btn" type="submit" :disabled="form.processing">Send Password Reset Link</button>
             </form>
             <form action="">
-                <button class="signup-btn">Register</button>
+                <button class="signup-btn" type="button" @click="goToLogin">Back to Login</button>
             </form>
         </div>
         <footer class="login-footer">
-            <a href="">Forgot your Password?</a>
+            <a href="">Remember your password?</a>
         </footer>
     </div>
   </Layout>
 </template>
-<script>
+
+<script setup lang="ts">
+import { useForm } from '@inertiajs/vue3';
 import Layout from '@/layout/Layout.vue';
-export default {
+import { router } from '@inertiajs/vue3';
 
-    data() {
-        return {
-            username: '',
-            password: '',
-            username2: '',
-            password2: '',
-            credentials: {
-                username: 'tiko', password: 'miko',
-            },
-            errors: {
-                hasError: false,
-                message: ''
-            }
-        };
-    },
+const props = defineProps<{
+    status?: string;
+}>();
 
-    methods: {
-        onSubmit() {
-            if (this.credentials.username !== this.username || this.credentials.password !== this.password) {
-                this.errors.hasError = true;
-                this.errors.message = 'Invalid credentials!';
-            } else {
-                alert('Success!');
-            }
-        },
-        clearErrors() {
-            this.errors.hasError = false;
-            this.errors.message = '';
-        }
-    },
-    components: {
-        Layout
-    }
-}
+const form = useForm({
+    email: '',
+});
+
+const submit = () => {
+    form.post('/forgot-password', {
+        onFinish: () => form.reset('email'),
+    });
+};
+
+const goToLogin = () => {
+    router.get('/login');
+};
 </script>
 
 <style scoped>
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
-
-body {
-  background: lightblue;
-  font-family: 'Montserrat';
-}
-
 .container {
   position: relative;
   width: 350px;
@@ -156,6 +135,11 @@ body {
   cursor: pointer;
 }
 
+.login-login button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .login-btn {
   background: #4CAF50;
 }
@@ -164,9 +148,14 @@ body {
   background: #2196F3;
 }
 
-
-.warning {
+.text-danger {
   color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.text-success {
+  color: green;
   text-align: center;
   padding-top: 10px;
 }

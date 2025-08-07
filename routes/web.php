@@ -23,18 +23,14 @@ Route::get('tracking', function () {
     return Inertia::render('Tracking');
 })->name('tracking');
 
-Route::get('login', function () {
-    return Inertia::render('Login');
-})->name('login');
-
-// Catch-all route to redirect unknown paths to home
-Route::get('/{any}', function () {
-    return redirect()->route('home');
-})->where('any', '.*');
-
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+// Catch-all route to redirect unknown paths to home
+Route::get('/{any}', function () {
+    return redirect()->route('home');
+})->where('any', '.*');
