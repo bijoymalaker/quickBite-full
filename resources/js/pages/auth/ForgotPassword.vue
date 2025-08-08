@@ -1,5 +1,4 @@
 <template>
-  <title>Forgot Password - Pretty Picks</title>
   <Layout>
     <div class="container my-5">
         <header class="login-header">
@@ -31,6 +30,11 @@
 import { useForm } from '@inertiajs/vue3';
 import Layout from '@/layout/Layout.vue';
 import { router } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    document.title = 'Forgot Password - Pretty Picks';
+});
 
 const props = defineProps<{
     status?: string;

@@ -1,5 +1,4 @@
 <template>
-  <title>Reset Password - Pretty Picks</title>
   <Layout>
     <div class="container my-5">
         <header class="login-header">
@@ -32,6 +31,11 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
 import Layout from '@/layout/Layout.vue';
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    document.title = 'Reset Password - Pretty Picks';
+});
 
 const props = defineProps<{
     token: string;

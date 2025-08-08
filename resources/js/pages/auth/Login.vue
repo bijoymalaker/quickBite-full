@@ -1,5 +1,4 @@
 <template>
-  <title>Login - Pretty Picks</title>
   <Layout>
     <div class="container my-5">
         <header class="login-header">
@@ -33,6 +32,11 @@
 import { useForm } from '@inertiajs/vue3';
 import Layout from '@/layout/Layout.vue';
 import { router } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    document.title = 'Login - Pretty Picks';
+});
 
 const form = useForm({
     email: '',

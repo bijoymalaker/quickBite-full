@@ -31,6 +31,6 @@ require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 
 // Catch-all route to redirect unknown paths to home
-Route::get('/{any}', function () {
-    return redirect()->route('home');
-})->where('any', '.*');
+// Route::get('/{any}', function () {
+//     return redirect()->route('home');
+// })->where('any', '.*');

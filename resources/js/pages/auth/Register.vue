@@ -1,5 +1,4 @@
 <template>
-  <title>Register - Pretty Picks</title>
   <Layout>
     <div class="container my-5">
         <header class="login-header">
@@ -41,6 +40,11 @@
 import { useForm } from '@inertiajs/vue3';
 import Layout from '@/layout/Layout.vue';
 import { router } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
+
+onMounted(() => {
+    document.title = 'Register - Pretty Picks';
+});
 
 const form = useForm({
     name: '',
