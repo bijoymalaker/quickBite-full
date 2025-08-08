@@ -38,6 +38,7 @@
 
           <!-- Login/Signup or Dashboard/Logout Buttons -->
           <div v-if="user" class="d-flex align-items-center ms-lg-3">
+              <Link :href="route('products.index')" class="login-signup-btn me-2">Products</Link>
               <Link :href="route('dashboard')" class="login-signup-btn me-2">Dashboard</Link>
               <Link :href="route('logout')" method="post" as="button" class="login-signup-btn">Logout</Link>
           </div>
