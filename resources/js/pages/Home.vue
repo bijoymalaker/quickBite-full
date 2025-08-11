@@ -35,6 +35,9 @@ export default {
             ],
         };
     },
+    mounted() {
+        document.title = 'Home - Pretty Picks';
+    },
     components: {
         Layout,
         Categories,
@@ -47,7 +50,7 @@ export default {
 </script>
 
 <template>
-    <title>Home - Pretty Picks</title>
+    
     <Layout>
         <div>
             <!-- Top banner part start  -->
