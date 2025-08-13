@@ -27,7 +27,7 @@
               <Link :href="route('offers')" class="nav-link" :class="{ active: route().current('offers') }">Offers</Link>
             </li>
             <li class="nav-item">
-              <Link :href="route('restaurants')" class="nav-link" :class="{ active: route().current('restaurants') }">Restaurants</Link>
+            <Link :href="route('restaurants.index')" class="nav-link" :class="{ active: route().current('restaurants.index') }">Restaurants</Link>
             </li>
             <li class="nav-item">
               <Link :href="route('tracking')" class="nav-link" :class="{ active: route().current('tracking') }">Track your Order</Link>

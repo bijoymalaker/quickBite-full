@@ -9,27 +9,25 @@ class Product extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
-        'description',
         'price',
-        'category',
+        'restaurant_id',
         'image',
+        'description',
         'is_available',
+        'category',
+        'discount_price',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'price' => 'decimal:2',
+        'discount_price' => 'decimal:2',
         'is_available' => 'boolean',
     ];
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
 }
