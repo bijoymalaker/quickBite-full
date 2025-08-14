@@ -35,6 +35,7 @@ class RestaurantController extends Controller
             'closing_time' => 'nullable|date_format:H:i',
             'minimum_order' => 'nullable|numeric|min:0',
             'rating' => 'nullable|numeric|min:0|max:5',
+            // 'user_id' => 'required|exists:users,id'
         ]);
 
         $restaurant = Restaurant::create($validated);

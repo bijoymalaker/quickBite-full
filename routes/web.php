@@ -18,7 +18,10 @@ Route::get('offers', function () {
 })->name('offers');
 
 Route::get('restaurants', function () {
-    return Inertia::render('Restaurants/Index');
+    $restaurants = \App\Models\Restaurant::with('products')->get();
+    return Inertia::render('Restaurants/Index', [
+        'restaurants' => $restaurants
+    ]);
 })->name('restaurants.index');
 
 Route::get('restaurants/create', function () {

@@ -26,6 +26,24 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="restaurant_id" class="form-label">Restaurant</label>
+                                    <select 
+                                        v-model="form.restaurant_id" 
+                                        class="form-control"
+                                        :class="{ 'is-invalid': form.errors.restaurant_id }"
+                                        required
+                                    >
+                                        <option value="">Select a restaurant</option>
+                                        <option v-for="restaurant in restaurants" :key="restaurant.id" :value="restaurant.id">
+                                            {{ restaurant.name }}
+                                        </option>
+                                    </select>
+                                    <div class="invalid-feedback" v-if="form.errors.restaurant_id">
+                                        {{ form.errors.restaurant_id }}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
                                     <textarea 
                                         class="form-control" 
@@ -121,20 +139,38 @@
 import Layout from '@/layout/Layout.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
 
+interface Restaurant {
+    id: number;
+    name: string;
+}
+
+const restaurants = ref<Restaurant[]>([]);
 const form = useForm({
     name: '',
     description: '',
     price: '',
     category: '',
+    restaurant_id: '',
     image: null as File | null,
     is_available: true,
 });
 
-const handleImageChange = (e) => {
-    const files = e.target.files;
-    if (files.length > 0) {
+const fetchRestaurants = async () => {
+    try {
+        const response = await axios.get('/api/restaurants');
+        restaurants.value = response.data;
+    } catch (error) {
+        console.error('Error fetching restaurants:', error);
+    }
+};
+
+const handleImageChange = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    const files = target.files;
+    if (files && files.length > 0) {
         form.image = files[0];
     }
 };
@@ -150,6 +186,7 @@ const submit = () => {
 
 onMounted(() => {
     document.title = 'Add Product - QuickBite';
+    fetchRestaurants();
 });
 </script>
 

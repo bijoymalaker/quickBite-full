@@ -38,6 +38,7 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category' => 'required|string|max:255',
+            'restaurant_id' => 'required|exists:restaurants,id',
             'image' => 'nullable|image|max:2048',
             'is_available' => 'boolean',
         ]);
@@ -47,6 +48,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->price = $request->price;
         $product->category = $request->category;
+        $product->restaurant_id = $request->restaurant_id;
         $product->is_available = $request->is_available ?? true;
 
         if ($request->hasFile('image')) {

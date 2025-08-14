@@ -1,96 +1,132 @@
 <template>
   <Layout>
-    <div class="container mx-auto px-4 py-8">
-      <div class="max-w-2xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Add New Restaurant</h1>
-        
-        <form @submit.prevent="submitForm" class="bg-white rounded-lg shadow-md p-6">
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Restaurant Name</label>
-            <input 
-              v-model="form.name" 
-              type="text" 
-              class="w-full border border-gray-300 rounded-md px-3 py-2"
-              required
-            >
-          </div>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header">
+              <h1 class="h3 mb-0">Add New Restaurant</h1>
+            </div>
+            <div class="card-body">
+              <form @submit.prevent="submitForm">
+                <div class="mb-3">
+                  <label class="form-label">Restaurant Name</label>
+                  <input 
+                    v-model="form.name" 
+                    type="text" 
+                    class="form-control"
+                    required
+                  >
+                </div>
 
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-            <input 
-              v-model="form.email" 
-              type="email" 
-              class="w-full border border-gray-300 rounded-md px-3 py-2"
-              required
-            >
-          </div>
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input 
+                    v-model="form.email" 
+                    type="email" 
+                    class="form-control"
+                    required
+                  >
+                </div>
 
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-            <input 
-              v-model="form.phone" 
-              type="tel" 
-              class="w-full border border-gray-300 rounded-md px-3 py-2"
-              required
-            >
-          </div>
+                <div class="mb-3">
+                  <label class="form-label">Phone</label>
+                  <input 
+                    v-model="form.phone" 
+                    type="tel" 
+                    class="form-control"
+                    required
+                  >
+                </div>
 
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
-            <textarea 
-              v-model="form.address" 
-              rows="3"
-              class="w-full border border-gray-300 rounded-md px-3 py-2"
-              required
-            ></textarea>
-          </div>
+                <div class="mb-3">
+                  <label class="form-label">Address</label>
+                  <textarea 
+                    v-model="form.address" 
+                    rows="3"
+                    class="form-control"
+                    required
+                  ></textarea>
+                </div>
 
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Cuisine Type</label>
-            <input 
-              v-model="form.cuisine_type" 
-              type="text" 
-              class="w-full border border-gray-300 rounded-md px-3 py-2"
-              required
-            >
-          </div>
+                <div class="mb-3">
+                  <label class="form-label">Cuisine Type</label>
+                  <input 
+                    v-model="form.cuisine_type" 
+                    type="text" 
+                    class="form-control"
+                    required
+                  >
+                </div>
 
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Delivery Fee</label>
-            <input 
-              v-model="form.delivery_fee" 
-              type="number" 
-              step="0.01"
-              class="w-full border border-gray-300 rounded-md px-3 py-2"
-              required
-            >
-          </div>
+                <div class="mb-3">
+                  <label class="form-label">Delivery Fee</label>
+                  <input 
+                    v-model="form.delivery_fee" 
+                    type="number" 
+                    step="0.01"
+                    class="form-control"
+                    required
+                  >
+                </div>
 
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
-            <input 
-              v-model="form.image" 
-              type="url" 
-              class="w-full border border-gray-300 rounded-md px-3 py-2"
-            >
-          </div>
+                <div class="mb-3">
+                  <label class="form-label">Image URL</label>
+                  <input 
+                    v-model="form.image" 
+                    type="url" 
+                    class="form-control"
+                  >
+                </div>
 
-          <div class="flex justify-end space-x-4">
-            <button 
-              type="button" 
-              @click="router.push('/restaurants')"
-              class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-            <button 
-              type="submit"
-              class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Add Restaurant
-            </button>
+                <div class="mb-3">
+                  <label class="form-label">Minimum Order</label>
+                  <input 
+                    v-model="form.minimum_order" 
+                    type="number" 
+                    step="0.01"
+                    class="form-control"
+                    value="0"
+                  >
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Opening Time</label>
+                  <input 
+                    v-model="form.opening_time" 
+                    type="time"
+                    class="form-control"
+                  >
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Closing Time</label>
+                  <input 
+                    v-model="form.closing_time" 
+                    type="time"
+                    class="form-control"
+                  >
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                  <button 
+                    type="button" 
+                    @click="router.visit('/restaurants')"
+                    class="btn btn-secondary"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit"
+                    class="btn btn-primary"
+                  >
+                    Add Restaurant
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </Layout>
@@ -98,11 +134,9 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { router } from '@inertiajs/vue3'
 import Layout from '@/layout/Layout.vue'
 import axios from 'axios'
-
-const router = useRouter()
 
 const form = ref({
   name: '',
@@ -111,15 +145,24 @@ const form = ref({
   address: '',
   cuisine_type: '',
   delivery_fee: 0,
+  minimum_order: 0,
+  opening_time: '',
+  closing_time: '',
   image: ''
 })
 
 const submitForm = async () => {
   try {
-    await axios.post('/api/restaurants', form.value)
-    router.push('/restaurants')
+    const restaurantData = {
+      ...form.value,
+      is_open: true
+    }
+    
+    await axios.post('/api/restaurants', restaurantData)
+    router.visit('/restaurants')
   } catch (error) {
     console.error('Error adding restaurant:', error)
+    alert('Error adding restaurant: ' + (error.response?.data?.message || error.message))
   }
 }
 </script>

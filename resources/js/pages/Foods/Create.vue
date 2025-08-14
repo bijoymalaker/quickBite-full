@@ -112,14 +112,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useForm } from '@inertiajs/vue3'
 import Layout from '@/layout/Layout.vue'
-import axios from 'axios'
 
-const router = useRouter()
-const restaurants = ref([])
+const props = defineProps({
+  restaurants: Array
+})
 
-const form = ref({
+const form = useForm({
   name: '',
   restaurant_id: '',
   category: '',
@@ -129,25 +129,15 @@ const form = ref({
   is_available: true
 })
 
-const fetchRestaurants = async () => {
-  try {
-    const response = await axios.get('/api/restaurants')
-    restaurants.value = response.data
-  } catch (error) {
-    console.error('Error fetching restaurants:', error)
-  }
-}
-
-const submitForm = async () => {
-  try {
-    await axios.post('/api/foods', form.value)
-    router.push('/foods')
-  } catch (error) {
-    console.error('Error adding food:', error)
-  }
+const submitForm = () => {
+  form.post('/foods', {
+    onSuccess: () => {
+      form.reset()
+    }
+  })
 }
 
 onMounted(() => {
-  fetchRestaurants()
+  // Restaurants are now passed as props via Inertia
 })
 </script>
