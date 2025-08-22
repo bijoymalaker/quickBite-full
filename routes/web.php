@@ -48,6 +48,17 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('restaurant/login', function () {
+    return Inertia::render('auth/RestaurantLogin');
+})->name('restaurant.login');
+
+Route::get('restaurant/dashboard', function () {
+    $restaurant = \App\Models\Restaurant::where('user_id', \Illuminate\Support\Facades\Auth::user()->id)->first();
+    return Inertia::render('RestaurantDashboard', [
+        'restaurant' => $restaurant
+    ]);
+})->middleware(['auth', 'verified'])->name('restaurant.dashboard');
+
 // Restaurant management routes
 Route::get('api/restaurants', [RestaurantController::class, 'index'])->name('api.restaurants.index');
 Route::post('api/restaurants', [RestaurantController::class, 'store'])->name('api.restaurants.store');

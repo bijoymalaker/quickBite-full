@@ -38,11 +38,15 @@
 
           <!-- Login/Signup or Dashboard/Logout Buttons -->
           <div v-if="user" class="d-flex align-items-center ms-lg-3">
-              <Link :href="route('products.index')" class="login-signup-btn me-2">Products</Link>
+              <Link v-if="user.role === 'restaurant'" :href="route('restaurant.dashboard')" class="login-signup-btn me-2">Restaurant Dashboard</Link>
+              <Link v-else :href="route('products.index')" class="login-signup-btn me-2">Products</Link>
               <Link :href="route('dashboard')" class="login-signup-btn me-2">Dashboard</Link>
               <Link :href="route('logout')" method="post" as="button" class="login-signup-btn">Logout</Link>
           </div>
-          <Link v-else :href="route('login')" class="login-signup-btn ms-lg-3"><font-awesome-icon icon="fa-solid fa-person-circle-plus" class="me-2 text-warning" />Login/Signup</Link>
+          <div v-else class="d-flex align-items-center ms-lg-3">
+              <Link :href="route('login')" class="login-signup-btn me-2"><font-awesome-icon icon="fa-solid fa-person-circle-plus" class="me-2 text-warning" />Login/Signup</Link>
+              <Link :href="route('restaurant.login')" class="login-signup-btn" style="background-color: #28a745;"><font-awesome-icon icon="fa-solid fa-utensils" class="me-2" />Restaurant Login</Link>
+          </div>
         </div>
       </div>
     </nav>
@@ -54,7 +58,12 @@ import { Link, usePage } from '@inertiajs/vue3';
 import {route} from 'ziggy-js';
 import { computed } from 'vue';
 
-const user = computed(() => (usePage().props.auth as { user: object | null }).user);
+interface User {
+    role?: string;
+    [key: string]: any;
+}
+
+const user = computed(() => (usePage().props.auth as { user: User | null }).user);
 
 </script>
 <style scoped>

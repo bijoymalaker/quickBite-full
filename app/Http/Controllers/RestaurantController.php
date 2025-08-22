@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class RestaurantController extends Controller
 {
@@ -35,8 +36,10 @@ class RestaurantController extends Controller
             'closing_time' => 'nullable|date_format:H:i',
             'minimum_order' => 'nullable|numeric|min:0',
             'rating' => 'nullable|numeric|min:0|max:5',
-            // 'user_id' => 'required|exists:users,id'
         ]);
+
+        // Add authenticated user ID to the restaurant data
+        $validated['user_id'] = Auth::user()->id;
 
         $restaurant = Restaurant::create($validated);
         return response()->json($restaurant, 201);
