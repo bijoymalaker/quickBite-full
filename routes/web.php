@@ -44,6 +44,10 @@ Route::get('tracking', function () {
     return Inertia::render('Tracking');
 })->name('tracking');
 
+Route::get('checkout', function () {
+    return Inertia::render('Checkout');
+})->name('checkout');
+
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -47,6 +47,7 @@
 import Layout from '@/layout/Layout.vue';
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
+import { useCartStore } from '@/store/cartStore';
 
 // Define product interface
 interface Product {
@@ -63,7 +64,7 @@ interface Product {
 const selectedCategory = ref<string>("All");
 const categories = ref<string[]>(["All"]);
 const menu = ref<Product[]>([]);
-const cart = ref<Product[]>([]);
+const cartStore = useCartStore();
 
 // Fetch products from API
 const fetchProducts = async () => {
@@ -91,7 +92,7 @@ const filteredMenu = computed<Product[]>(() => {
 const addToCart = (item: Product) => {
     if (!item.is_available) return;
     
-    cart.value.push(item);
+    cartStore.addItem(item);
     alert(`${item.name} added to cart!`);
 };
 

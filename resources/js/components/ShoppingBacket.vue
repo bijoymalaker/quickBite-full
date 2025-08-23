@@ -14,7 +14,7 @@
           <div class="btn-group ms-3">
             <button class="btn btn-success btn-sm ms-2"><font-awesome-icon
                 icon="fa-regular fa-pen-to-square" /></button>
-            <button class="btn btn-danger btn-sm"><font-awesome-icon icon="fa-regular fa-trash-can" /></button>
+            <button class="btn btn-danger btn-sm" @click="removeItem(item.id)"><font-awesome-icon icon="fa-regular fa-trash-can" /></button>
           </div>
         </div>
 
@@ -52,7 +52,7 @@
           Minimum delivery is £20. You must spend £{{ (minimumDelivery - total).toFixed(2) }} more for checkout!
         </div>
 
-        <button @mouseover="showAlert = true" @mouseleave="showAlert = false" :disabled="total < minimumDelivery" class="btn btn-primary w-100 mt-3" @click="$emit('PreOrder')">
+        <button @mouseover="showAlert = true" @mouseleave="showAlert = false" :disabled="total < minimumDelivery" class="btn btn-primary w-100 mt-3" @click="goToCheckout">
           <font-awesome-icon icon="fa-regular fa-circle-right" class="me-5 fs-2" /> Checkout!
         </button>
       </div>
@@ -70,31 +70,41 @@
 </template>
 
 <script>
+import { useCartStore } from '@/store/cartStore';
+import { router } from '@inertiajs/vue3';
+
 export default {
   name: "ShoppingBasket",
-  emits : ['PreOrder'],
+  setup() {
+    const cartStore = useCartStore();
+    return { cartStore };
+  },
   data() {
     return {
       showAlert: false,
-      cart: [
-        { name: "12\" Vegetarian Pizza", description: "Mushrooms + Green Peppers", price: 27.90, quantity: 1 },
-        { name: "17\" Tandoori Pizza", description: "Mushrooms + Green Peppers", price: 17.90, quantity: 1 },
-        { name: "Coke Coca Cola", description: "", price: 4.90, quantity: 2 },
-        { name: "12\" Vegetarian Pizza", description: "Mushrooms + Green Peppers", price: 27.90, quantity: 1 }
-      ],
       discount: 3.00,
       deliveryFee: 2.50,
       minimumDelivery: 20,
       deliveryTime: "18:00",
-      showAlert: false,
     };
   },
   computed: {
+    cart() {
+      return this.cartStore.items;
+    },
     subTotal() {
-      return this.cart.reduce((total, item) => total + item.price * item.quantity, 0);
+      return this.cartStore.cartTotal;
     },
     total() {
       return this.subTotal - this.discount + this.deliveryFee;
+    }
+  },
+  methods: {
+    removeItem(itemId) {
+      this.cartStore.removeItem(itemId);
+    },
+    goToCheckout() {
+      router.visit('/checkout');
     }
   }
 };

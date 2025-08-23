@@ -32,6 +32,14 @@
             <li class="nav-item">
               <Link :href="route('tracking')" class="nav-link" :class="{ active: route().current('tracking') }">Track your Order</Link>
             </li>
+            <li class="nav-item" v-if="user">
+              <Link :href="route('checkout')" class="nav-link position-relative" :class="{ active: route().current('checkout') }">
+                <font-awesome-icon icon="fa-solid fa-basket-shopping" class="me-1" />
+                <span v-if="cart.itemCount > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {{ cart.itemCount }}
+                </span>
+              </Link>
+            </li>
           </ul>
 
           <!-- Login/Signup Button -->
@@ -57,6 +65,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import {route} from 'ziggy-js';
 import { computed } from 'vue';
+import { useCartStore } from '@/store/cartStore';
 
 interface User {
     role?: string;
@@ -64,6 +73,7 @@ interface User {
 }
 
 const user = computed(() => (usePage().props.auth as { user: User | null }).user);
+const cart = useCartStore();
 
 </script>
 <style scoped>
