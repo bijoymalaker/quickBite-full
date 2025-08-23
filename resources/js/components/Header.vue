@@ -32,14 +32,14 @@
             <li class="nav-item">
               <Link :href="route('tracking')" class="nav-link" :class="{ active: route().current('tracking') }">Track your Order</Link>
             </li>
-            <li class="nav-item" v-if="user">
+            <!-- <li class="nav-item" v-if="user">
               <Link :href="route('checkout')" class="nav-link position-relative" :class="{ active: route().current('checkout') }">
                 <font-awesome-icon icon="fa-solid fa-basket-shopping" class="me-1" />
                 <span v-if="cart.itemCount > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                   {{ cart.itemCount }}
                 </span>
               </Link>
-            </li>
+            </li> -->
           </ul>
 
           <!-- Login/Signup Button -->
@@ -60,20 +60,15 @@
     </nav>
 </template>
 
-<script setup lang="ts">
+<script setup>
 
 import { Link, usePage } from '@inertiajs/vue3';
-import {route} from 'ziggy-js';
+import { route } from 'ziggy-js';
 import { computed } from 'vue';
-import { useCartStore } from '@/store/cartStore';
+// import { useCartStore } from '@/store/cartStore';
 
-interface User {
-    role?: string;
-    [key: string]: any;
-}
-
-const user = computed(() => (usePage().props.auth as { user: User | null }).user);
-const cart = useCartStore();
+const user = computed(() => usePage().props.auth && usePage().props.auth.user ? usePage().props.auth.user : null);
+// const cart = useCartStore();
 
 </script>
 <style scoped>
