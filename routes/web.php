@@ -52,6 +52,10 @@ Route::get('restaurant/login', function () {
     return Inertia::render('auth/RestaurantLogin');
 })->name('restaurant.login');
 
+Route::get('restaurant/register', function () {
+    return Inertia::render('auth/RestaurantRegister');
+})->name('restaurant.register');
+
 Route::get('restaurant/dashboard', function () {
     $restaurant = \App\Models\Restaurant::where('user_id', \Illuminate\Support\Facades\Auth::user()->id)->first();
     return Inertia::render('RestaurantDashboard', [

@@ -1,19 +1,14 @@
-# Restaurant Admin System Implementation
+# Restaurant System Fixes - Implementation Plan
 
-## Phase 1: Backend Updates
-- [ ] Update User model with role field
-- [ ] Update Registration Controller for role handling
-- [ ] Update Login Controller for role-based redirection
-- [ ] Create restaurant registration route
+## Phase 1: Create Dedicated Restaurant Registration Page ✅
+- [x] Create `resources/js/pages/auth/RestaurantRegister.vue`
+- [x] Update RestaurantLogin.vue registration link
+- [x] Add restaurant registration route in web.php
 
-## Phase 2: Frontend Updates
-- [ ] Update Header component with restaurant login button
-- [ ] Create restaurant registration page
-- [ ] Enhance Dashboard for restaurant admin
-- [ ] Create restaurant dashboard component
+## Phase 2: Testing & Validation
+- [ ] Create test cases for restaurant login flow
+- [ ] Create test cases for restaurant registration flow
+- [ ] Create test cases for restaurant dashboard functionality
 
-## Phase 3: Testing
-- [ ] Test registration flow
-- [ ] Test login redirection
-- [ ] Test dashboard functionality
-- [ ] Test role-based access
+## Phase 3: Documentation Updates
+- [ ] Update TODO_RESTAURANT_FIXES.md with completed items

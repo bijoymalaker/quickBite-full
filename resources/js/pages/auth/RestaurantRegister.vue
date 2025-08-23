@@ -2,12 +2,16 @@
   <Layout>
     <div class="container my-5">
         <header class="login-header">
-            <img src="https://cdn-icons-png.flaticon.com/512/3448/3448636.png" 
-                 alt="Restaurant Login" class="login-avatar">
+            <img src="https://cdn-icons-png.flaticon.com/512/3448/3448636.png"
+                alt="Restaurant Registration" class="login-avatar">
         </header>
         <div class="login-login">
-            <h3 class="text-center mb-4">Restaurant Owner Login</h3>
+            <h3 class="text-center mb-4">Restaurant Owner Registration</h3>
             <form @submit.prevent="submit">
+                <label for="name">Restaurant Owner Name</label>
+                <input id="name" type="text" v-model="form.name" required>
+                <div v-if="form.errors.name" class="text-danger">{{ form.errors.name }}</div>
+                
                 <label for="email">Email</label>
                 <input id="email" type="email" v-model="form.email" required>
                 <div v-if="form.errors.email" class="text-danger">{{ form.errors.email }}</div>
@@ -16,14 +20,17 @@
                 <input id="password" type="password" v-model="form.password" required>
                 <div v-if="form.errors.password" class="text-danger">{{ form.errors.password }}</div>
                 
-                <button class="login-btn" type="submit" :disabled="form.processing">Login as Restaurant</button>
+                <label for="password_confirmation">Confirm Password</label>
+                <input id="password_confirmation" type="password" v-model="form.password_confirmation" required>
+                <div v-if="form.errors.password_confirmation" class="text-danger">{{ form.errors.password_confirmation }}</div>
+                
+                <input type="hidden" v-model="form.role" value="restaurant">
+                
+                <button class="login-btn" type="submit" :disabled="form.processing">Register Restaurant</button>
             </form>
             <div class="login-footer">
-                <a href="#" @click.prevent="goToForgotPassword">Forgot your Password?</a>
-            </div>
-            <div class="text-center mt-3">
-                <p>Don't have a restaurant account? 
-                  <a href="#" @click.prevent="goToRestaurantRegister" class="text-primary">Register your restaurant</a>
+                <p>Already have a restaurant account? 
+                  <a href="#" @click.prevent="goToRestaurantLogin" class="text-primary">Login here</a>
                 </p>
             </div>
         </div>
@@ -38,27 +45,29 @@ import { router } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 
 onMounted(() => {
-    document.title = 'Restaurant Login - QuickBite';
+    document.title = 'Restaurant Registration - QuickBite';
 });
 
 const form = useForm({
+    name: '',
     email: '',
     password: '',
-    role: 'restaurant', // Always set role to restaurant for restaurant login
+    password_confirmation: '',
+    role: 'restaurant', // Pre-set to restaurant
 });
 
 const submit = () => {
-    form.post('/login', {
-        onFinish: () => form.reset('password'),
+    form.post('/register', {
+        onFinish: () => form.reset('password', 'password_confirmation'),
+        onSuccess: () => {
+            // Redirect to restaurant setup after successful registration
+            router.visit('/restaurants/create');
+        }
     });
 };
 
-const goToForgotPassword = () => {
-    router.get('/forgot-password');
-};
-
-const goToRestaurantRegister = () => {
-    router.get('/restaurant/register');
+const goToRestaurantLogin = () => {
+    router.get('/restaurant/login');
 };
 </script>
 
@@ -123,7 +132,7 @@ const goToRestaurantRegister = () => {
 
 .login-footer {
   text-align: center;
-  margin: 10px 0;
+  margin: 20px 0;
 }
 
 .login-footer a {
@@ -159,7 +168,7 @@ const goToRestaurantRegister = () => {
 
 .text-danger {
   color: red;
-  font-size: 14px;
+  font-size: 极速;
   margin-top: 5px;
 }
 
