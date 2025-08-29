@@ -163,20 +163,11 @@ const fetchRestaurants = async () => {
     }
 };
 
-const handleImageChange = (e: Event) => {
-    const target = e.target as HTMLInputElement;
-    const files = target.files;
-    if (files && files.length > 0) {
 const handleImageChange = (e) => {
     const files = e.target.files;
     if (files && files.length > 0) {
         form.image = files[0];
     }
-};
-        onSuccess: () => {
-            alert('Product created successfully!');
-        },
-    });
 };
 
 onMounted(() => {
