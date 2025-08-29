@@ -121,36 +121,39 @@
     </Layout>
 </template>
 
-<script setup lang="ts">
-import Layout from '@/layout/Layout.vue';
+<script setup>
+import Layout from '../../layout/Layout.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
 import { onMounted } from 'vue';
 
 const props = defineProps({
-    product: Object,
+    product: {
+        type: Object,
+        default: () => ({
+            name: '',
+            description: '',
+            price: 0,
+            category: '',
+            image: '',
+            is_available: false,
+            id: null,
+        }),
+    },
 });
 
 const form = useForm({
-    name: props.product.name,
-    description: props.product.description,
-    price: props.product.price,
-    category: props.product.category,
-    image: null as File | null,
-    is_available: props.product.is_available,
+    name: props.product?.name ?? '',
+    description: props.product?.description ?? '',
+    price: props.product?.price ?? 0,
+    category: props.product?.category ?? '',
+    image: null,
+    is_available: props.product?.is_available ?? false,
     _method: 'put',
 });
 
-const handleImageChange = (e: Event) => {
-    const target = e.target as HTMLInputElement;
-    const files = target.files;
-    if (files && files.length > 0) {
-        form.image = files[0];
-    }
-};
-
 const submit = () => {
-    form.post(route('products.update', props.product.id), {
+    form.post(route('products.update', props.product?.id ?? ''), {
         preserveScroll: true,
         onSuccess: () => {
             alert('Product updated successfully!');

@@ -58,7 +58,7 @@
     </Layout>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Layout from '@/layout/Layout.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';

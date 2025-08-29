@@ -135,26 +135,22 @@
     </Layout>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Layout from '@/layout/Layout.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 
-interface Restaurant {
-    id: number;
-    name: string;
-}
-
-const restaurants = ref<Restaurant[]>([]);
+// Restaurant structure: { id: number, name: string }
+const restaurants = ref([]);
 const form = useForm({
     name: '',
     description: '',
     price: '',
     category: '',
     restaurant_id: '',
-    image: null as File | null,
+    image: null,
     is_available: true,
 });
 
@@ -171,13 +167,12 @@ const handleImageChange = (e: Event) => {
     const target = e.target as HTMLInputElement;
     const files = target.files;
     if (files && files.length > 0) {
+const handleImageChange = (e) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
         form.image = files[0];
     }
 };
-
-const submit = () => {
-    form.post(route('products.store'), {
-        preserveScroll: true,
         onSuccess: () => {
             alert('Product created successfully!');
         },
