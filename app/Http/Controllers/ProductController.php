@@ -133,4 +133,13 @@ class ProductController extends Controller
 
         return response()->json($products);
     }
+
+    /**
+     * Get all food items for a specific restaurant.
+     */
+    public function restaurantFoods($restaurantId)
+    {
+        $foods = Product::where('restaurant_id', $restaurantId)->get();
+        return response()->json($foods);
+    }
 }

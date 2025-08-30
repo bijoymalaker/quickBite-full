@@ -74,7 +74,7 @@ import { useCartStore } from '@/store/cartStore';
 import { router } from '@inertiajs/vue3';
 
 export default {
-  name: "ShoppingBasket",
+  name: "ShoppingBacket",
   setup() {
     const cartStore = useCartStore();
     return { cartStore };
