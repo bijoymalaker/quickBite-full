@@ -24,7 +24,7 @@
                             <h5 class="card-title">{{ item.name }}</h5>
                             <p class="card-text text-muted">{{ item.description }}</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="fw-bold text-success">£{{ item.price }}</span>
+                                <span class="fw-bold text-success">৳{{ item.price }}</span>
                                 <button class="btn btn-primary btn-sm" @click="addToCart(item)" :disabled="!item.is_available">
                                     {{ item.is_available ? 'Add to Cart' : 'Unavailable' }}
                                 </button>

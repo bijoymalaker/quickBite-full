@@ -12,14 +12,8 @@
                             <form @submit.prevent="submit">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Product Name</label>
-                                    <input 
-                                        type="text" 
-                                        class="form-control" 
-                                        id="name" 
-                                        v-model="form.name"
-                                        :class="{ 'is-invalid': form.errors.name }"
-                                        required
-                                    >
+                                    <input type="text" class="form-control" id="name" v-model="form.name"
+                                        :class="{ 'is-invalid': form.errors.name }" required>
                                     <div class="invalid-feedback" v-if="form.errors.name">
                                         {{ form.errors.name }}
                                     </div>
@@ -27,14 +21,11 @@
 
                                 <div class="mb-3">
                                     <label for="restaurant_id" class="form-label">Restaurant</label>
-                                    <select 
-                                        v-model="form.restaurant_id" 
-                                        class="form-control"
-                                        :class="{ 'is-invalid': form.errors.restaurant_id }"
-                                        required
-                                    >
+                                    <select v-model="form.restaurant_id" class="form-control"
+                                        :class="{ 'is-invalid': form.errors.restaurant_id }" required>
                                         <option value="">Select a restaurant</option>
-                                        <option v-for="restaurant in restaurants" :key="restaurant.id" :value="restaurant.id">
+                                        <option v-for="restaurant in restaurants" :key="restaurant.id"
+                                            :value="restaurant.id">
                                             {{ restaurant.name }}
                                         </option>
                                     </select>
@@ -45,13 +36,8 @@
 
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
-                                    <textarea 
-                                        class="form-control" 
-                                        id="description" 
-                                        rows="3" 
-                                        v-model="form.description"
-                                        :class="{ 'is-invalid': form.errors.description }"
-                                    ></textarea>
+                                    <textarea class="form-control" id="description" rows="3" v-model="form.description"
+                                        :class="{ 'is-invalid': form.errors.description }"></textarea>
                                     <div class="invalid-feedback" v-if="form.errors.description">
                                         {{ form.errors.description }}
                                     </div>
@@ -60,16 +46,10 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="price" class="form-label">Price (£)</label>
-                                            <input 
-                                                type="number" 
-                                                step="0.01"
-                                                class="form-control" 
-                                                id="price" 
-                                                v-model="form.price"
-                                                :class="{ 'is-invalid': form.errors.price }"
-                                                required
-                                            >
+                                            <label for="price" class="form-label">Price (৳)</label>
+                                            <input type="number" step="0.01" class="form-control" id="price"
+                                                v-model="form.price" :class="{ 'is-invalid': form.errors.price }"
+                                                required>
                                             <div class="invalid-feedback" v-if="form.errors.price">
                                                 {{ form.errors.price }}
                                             </div>
@@ -78,14 +58,9 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="category" class="form-label">Category</label>
-                                            <input 
-                                                type="text" 
-                                                class="form-control" 
-                                                id="category" 
-                                                v-model="form.category"
-                                                :class="{ 'is-invalid': form.errors.category }"
-                                                required
-                                            >
+                                            <input type="text" class="form-control" id="category"
+                                                v-model="form.category" :class="{ 'is-invalid': form.errors.category }"
+                                                required>
                                             <div class="invalid-feedback" v-if="form.errors.category">
                                                 {{ form.errors.category }}
                                             </div>
@@ -95,31 +70,22 @@
 
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Product Image</label>
-                                    <input 
-                                        type="file" 
-                                        class="form-control" 
-                                        id="image" 
-                                        @change="handleImageChange"
-                                        :class="{ 'is-invalid': form.errors.image }"
-                                    >
+                                    <input type="file" class="form-control" id="image" @change="handleImageChange"
+                                        :class="{ 'is-invalid': form.errors.image }">
                                     <div class="invalid-feedback" v-if="form.errors.image">
                                         {{ form.errors.image }}
                                     </div>
                                 </div>
 
                                 <div class="mb-3 form-check">
-                                    <input 
-                                        type="checkbox" 
-                                        class="form-check-input" 
-                                        id="is_available" 
-                                        v-model="form.is_available"
-                                    >
+                                    <input type="checkbox" class="form-check-input" id="is_available"
+                                        v-model="form.is_available">
                                     <label class="form-check-label" for="is_available">Available for Order</label>
                                 </div>
 
                                 <div class="d-flex justify-content-between">
                                     <Link :href="route('products.index')" class="btn btn-secondary">
-                                        Cancel
+                                    Cancel
                                     </Link>
                                     <button type="submit" class="btn btn-primary" :disabled="form.processing">
                                         <span v-if="form.processing">Saving...</span>
@@ -168,6 +134,15 @@ const handleImageChange = (e) => {
     if (files && files.length > 0) {
         form.image = files[0];
     }
+};
+
+const submit = () => {
+    form.post(route('products.store'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            alert('Product created successfully!');
+        },
+    });
 };
 
 onMounted(() => {

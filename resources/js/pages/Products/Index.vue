@@ -31,7 +31,7 @@
                                     </td>
                                     <td>{{ product.name }}</td>
                                     <td>{{ product.category }}</td>
-                                    <td>£{{ product.price }}</td>
+                                    <td>৳{{ product.price }}</td>
                                     <td>
                                         <span :class="product.is_available ? 'badge bg-success' : 'badge bg-danger'">
                                             {{ product.is_available ? 'Available' : 'Unavailable' }}

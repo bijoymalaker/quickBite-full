@@ -10,7 +10,7 @@
             <strong>{{ item.quantity }}x</strong> {{ item.name }} <br />
             <small>{{ item.description }}</small>
           </div>
-          <div class="fw-bold">£{{ (item.price * item.quantity).toFixed(2) }}</div>
+          <div class="fw-bold">৳{{ (item.price * item.quantity).toFixed(2) }}</div>
           <div class="btn-group ms-3">
             <button class="btn btn-success btn-sm ms-2"><font-awesome-icon
                 icon="fa-regular fa-pen-to-square" /></button>
@@ -21,19 +21,19 @@
         <hr />
         <div class="d-flex justify-content-between">
           <span>Sub Total:</span>
-          <span>£{{ subTotal.toFixed(2) }}</span>
+          <span>৳{{ subTotal.toFixed(2) }}</span>
         </div>
         <div class="d-flex justify-content-between text-danger">
           <span>Discounts:</span>
-          <span>-£{{ discount.toFixed(2) }}</span>
+          <span>-৳{{ discount.toFixed(2) }}</span>
         </div>
         <div class="d-flex justify-content-between">
           <span>Delivery Fee:</span>
-          <span>£{{ deliveryFee.toFixed(2) }}</span>
+          <span>৳{{ deliveryFee.toFixed(2) }}</span>
         </div>
 
         <div class="bg-warning p-2 text-center fw-bold mt-3">
-          Total to pay: £{{ total.toFixed(2) }}
+          Total to pay: ৳{{ total.toFixed(2) }}
         </div>
 
         <div class="mt-3">
@@ -49,7 +49,7 @@
         </div>
 
         <div v-if="total < minimumDelivery" class="alert alert-danger text-center mt-3">
-          Minimum delivery is £20. You must spend £{{ (minimumDelivery - total).toFixed(2) }} more for checkout!
+          Minimum delivery is ৳20. You must spend ৳{{ (minimumDelivery - total).toFixed(2) }} more for checkout!
         </div>
 
         <button @mouseover="showAlert = true" @mouseleave="showAlert = false" :disabled="total < minimumDelivery" class="btn btn-primary w-100 mt-3" @click="goToCheckout">

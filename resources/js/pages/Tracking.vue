@@ -46,7 +46,7 @@
                         </div>
                         <div class="summary-item">
                             <span>Total:</span>
-                            <strong>${{ currentOrder.totalAmount.toFixed(2) }}</strong>
+                            <strong>৳{{ currentOrder.totalAmount.toFixed(2) }}</strong>
                         </div>
                         <div class="summary-item">
                             <span>Estimated Delivery:</span>
@@ -87,7 +87,7 @@
                                 <p>{{ item.description }}</p>
                                 <div class="item-meta">
                                     <span class="quantity">Qty: {{ item.quantity }}</span>
-                                    <span class="price">${{ item.price.toFixed(2) }}</span>
+                                    <span class="price">৳{{ item.price.toFixed(2) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -177,7 +177,7 @@
                             <span :class="['status', order.status.toLowerCase()]">{{ order.status }}</span>
                         </div>
                         <div class="order-card-body">
-                            <p>{{ order.items.length }} items • ${{ order.totalAmount.toFixed(2) }}</p>
+                            <p>{{ order.items.length }} items • ৳{{ order.totalAmount.toFixed(2) }}</p>
                             <p class="order-date">{{ formatDate(order.orderDate) }}</p>
                         </div>
                     </div>

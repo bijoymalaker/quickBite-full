@@ -41,7 +41,7 @@
             <p class="text-sm text-gray-500 mb-2">{{ food.category }}</p>
             <p class="text-sm text-gray-700 mb-3">{{ food.description }}</p>
             <div class="flex justify-between items-center">
-              <span class="text-lg font-bold text-green-600">${{ food.price }}</span>
+              <span class="text-lg font-bold text-green-600">৳{{ food.price }}</span>
               <div class="flex space-x-2">
                 <button 
                   @click="editFood(food)"

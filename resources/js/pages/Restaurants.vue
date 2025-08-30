@@ -15,7 +15,7 @@
     <div class="container bg-light p-4 d-flex justify-content-between align-items-center position-relative res-bg">
       <div>
         <h2>Tandoori Pizza London</h2>
-        <p>Minimum Order: £12 | Delivery in 20-30 Minutes</p>
+        <p>Minimum Order: ৳12 | Delivery in 20-30 Minutes</p>
         <button class="btn btn-warning">Open until 2:00 AM</button>
       </div>
       <div class="text-center bg-white p-4 rating-bridge">
@@ -67,10 +67,10 @@
                       height="80" />
                   </div>
                   <div class="mt-3 d-flex flex-wrap gap-2">
-                    <button class="btn btn-dark">Small £{{ food.Small }}</button>
-                    <button class="btn btn-success">Medium £{{ food.Medium }}</button>
-                    <button class="btn btn-primary">Large £{{ food.Large }}</button>
-                    <button class="btn btn-warning">XL Large with Sauces £{{ food.XLarge }}</button>
+                    <button class="btn btn-dark">Small ৳{{ food.Small }}</button>
+                    <button class="btn btn-success">Medium ৳{{ food.Medium }}</button>
+                    <button class="btn btn-primary">Large ৳{{ food.Large }}</button>
+                    <button class="btn btn-warning">XL Large with Sauces ৳{{ food.XLarge }}</button>
                   </div>
                 </div>
               </div>

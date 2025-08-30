@@ -14,7 +14,7 @@ export const useCartStore = defineStore('cart', {
       }, 0);
     },
     formattedTotal: (state) => {
-      return `£${state.cartTotal.toFixed(2)}`;
+  return `৳${state.cartTotal.toFixed(2)}`;
     }
   },
 

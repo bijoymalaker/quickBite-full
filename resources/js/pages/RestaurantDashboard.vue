@@ -8,28 +8,16 @@
             <h5 class="sidebar-heading px-3 mt-4 mb-1 text-muted">Restaurant Management</h5>
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="#">
-                  <i class="fas fa-tachometer-alt me-2"></i>
-                  Dashboard
-                </a>
+                <a class="nav-link active" href="#"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
               </li>
               <li class="nav-item">
-                <Link :href="route('products.index')" class="nav-link">
-                  <i class="fas fa-utensils me-2"></i>
-                  Menu Items
-                </Link>
+                <Link :href="route('products.index')" class="nav-link"><i class="fas fa-utensils me-2"></i>Menu Items</Link>
               </li>
               <li class="nav-item">
-                <Link :href="route('restaurants.create')" class="nav-link">
-                  <i class="fas fa-store me-2"></i>
-                  Restaurant Details
-                </Link>
+                <Link :href="route('restaurants.create')" class="nav-link"><i class="fas fa-store me-2"></i>Restaurant Details</Link>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <i class="fas fa-chart-bar me-2"></i>
-                  Analytics
-                </a>
+                <a class="nav-link" href="#"><i class="fas fa-chart-bar me-2"></i>Analytics</a>
               </li>
             </ul>
           </div>
@@ -37,7 +25,8 @@
 
         <!-- Main Content -->
         <div class="col-md-9 col-lg-10 main-content">
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Restaurant Dashboard</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group me-2">
@@ -64,17 +53,17 @@
                     </div>
                     <div class="col-md-6">
                       <p><strong>Cuisine Type:</strong> {{ restaurant.cuisine_type }}</p>
-                      <p><strong>Status:</strong> 
+                      <p><strong>Status:</strong>
                         <span :class="restaurant.is_open ? 'text-success' : 'text-danger'">
                           {{ restaurant.is_open ? 'Open' : 'Closed' }}
                         </span>
                       </p>
-                      <p><strong>Delivery Fee:</strong> ${{ restaurant.delivery_fee }}</p>
-                      <p><strong>Minimum Order:</strong> ${{ restaurant.minimum_order }}</p>
+                      <p><strong>Delivery Fee:</strong> ৳{{ restaurant.delivery_fee }}</p>
+                      <p><strong>Minimum Order:</strong> ৳{{ restaurant.minimum_order }}</p>
                     </div>
                   </div>
                   <div v-else>
-                    <p class="text-muted">No restaurant information found. 
+                    <p class="text-muted">No restaurant information found.
                       <Link :href="route('restaurants.create')" class="text-primary">Set up your restaurant</Link>
                     </p>
                   </div>
@@ -125,12 +114,12 @@
                   <div class="row">
                     <div class="col-md-3 mb-2">
                       <Link :href="route('products.create')" class="btn btn-primary w-100">
-                        <i class="fas fa-plus me-2"></i>Add Menu Item
+                      <i class="fas fa-plus me-2"></i>Add Menu Item
                       </Link>
                     </div>
                     <div class="col-md-3 mb-2">
                       <Link :href="route('restaurants.create')" class="btn btn-success w-100">
-                        <i class="fas fa-edit me-2"></i>Edit Restaurant
+                      <i class="fas fa-edit me-2"></i>Edit Restaurant
                       </Link>
                     </div>
                     <div class="col-md-3 mb-2">

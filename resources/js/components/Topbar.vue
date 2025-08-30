@@ -27,7 +27,7 @@
                         <span class="cart-icon px-3"><font-awesome-icon icon="fa-solid fa-basket-shopping" class="text-white"/></span>
                     <!-- Emoji or icon for the cart -->
                     <span class="border-end border-2 px-3 text-white">{{ cart.itemCount }} Items</span>
-                    <span class="border-end border-2 px-3 text-white">GBP {{ (cart.cartTotal ?? 0).toFixed(2) }}</span>
+                    <span class="border-end border-2 px-3 text-white">৳{{ (cart.cartTotal ?? 0).toFixed(2) }}</span>
                     <span class="cart-icon ms-3 border-0"><font-awesome-icon icon="fa-regular fa-circle-down" class="text-white" /></span>
 
                     </Link>

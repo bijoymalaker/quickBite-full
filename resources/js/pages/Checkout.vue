@@ -14,26 +14,26 @@
                   <strong>{{ item.quantity }}x</strong> {{ item.name }} <br />
                   <small class="text-muted">{{ item.description }}</small>
                 </div>
-                <div class="fw-bold">£{{ (parseFloat(item.price) * item.quantity).toFixed(2) }}</div>
+                <div class="fw-bold">৳{{ (parseFloat(item.price) * item.quantity).toFixed(2) }}</div>
               </div>
 
               <hr />
               <div class="d-flex justify-content-between">
                 <span>Sub Total:</span>
-                <span>£{{ cart.cartTotal.toFixed(2) }}</span>
+                  <span>৳{{ cart.cartTotal.toFixed(2) }}</span>
               </div>
               <div class="d-flex justify-content-between text-danger">
                 <span>Discounts:</span>
-                <span>-£{{ discount.toFixed(2) }}</span>
+                  <span>-৳{{ discount.toFixed(2) }}</span>
               </div>
               <div class="d-flex justify-content-between">
                 <span>Delivery Fee:</span>
-                <span>£{{ deliveryFee.toFixed(2) }}</span>
+                  <span>৳{{ deliveryFee.toFixed(2) }}</span>
               </div>
               <hr />
               <div class="d-flex justify-content-between fw-bold fs-5">
                 <span>Total:</span>
-                <span>£{{ total.toFixed(2) }}</span>
+                  <span>৳{{ total.toFixed(2) }}</span>
               </div>
             </div>
           </div>
