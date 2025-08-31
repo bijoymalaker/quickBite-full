@@ -19,7 +19,7 @@ Route::get('offers', function () {
 
 Route::get('restaurants', function () {
     $restaurants = \App\Models\Restaurant::with('products')->get();
-    return Inertia::render('Restaurants/Index', [
+    return Inertia::render('Restaurants', [
         'restaurants' => $restaurants
     ]);
 })->name('restaurants.index');
@@ -62,7 +62,7 @@ Route::get('restaurant/register', function () {
 
 Route::get('restaurant/dashboard', function () {
     $restaurant = \App\Models\Restaurant::where('user_id', \Illuminate\Support\Facades\Auth::user()->id)->first();
-    return Inertia::render('RestaurantDashboard', [
+    return Inertia::render('Restaurants/Index', [
         'restaurant' => $restaurant
     ]);
 })->middleware(['auth', 'verified'])->name('restaurant.dashboard');
