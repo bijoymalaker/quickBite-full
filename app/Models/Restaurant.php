@@ -35,6 +35,14 @@ class Restaurant extends Model
         'closing_time' => 'datetime:H:i',
     ];
 
+    /**
+     * Set the is_open attribute
+     */
+    public function setIsOpenAttribute($value)
+    {
+        $this->attributes['is_open'] = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? false;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

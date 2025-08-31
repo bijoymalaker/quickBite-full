@@ -30,13 +30,19 @@ class RestaurantController extends Controller
             'address' => 'required|string|max:500',
             'cuisine_type' => 'required|string|max:100',
             'delivery_fee' => 'required|numeric|min:0',
-            'image' => 'nullable|url',
-            'is_open' => 'boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'is_open' => 'nullable|in:0,1,true,false',
             'opening_time' => 'nullable|date_format:H:i',
             'closing_time' => 'nullable|date_format:H:i',
             'minimum_order' => 'nullable|numeric|min:0',
             'rating' => 'nullable|numeric|min:0|max:5',
         ]);
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('restaurants', 'public');
+            $validated['image'] = $imagePath;
+        }
 
         // Add authenticated user ID to the restaurant data
         $validated['user_id'] = Auth::user()->id;
@@ -66,13 +72,19 @@ class RestaurantController extends Controller
             'address' => 'sometimes|required|string|max:500',
             'cuisine_type' => 'sometimes|required|string|max:100',
             'delivery_fee' => 'sometimes|required|numeric|min:0',
-            'image' => 'nullable|url',
-            'is_open' => 'boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'is_open' => 'nullable|in:0,1,true,false',
             'opening_time' => 'nullable|date_format:H:i',
             'closing_time' => 'nullable|date_format:H:i',
             'minimum_order' => 'nullable|numeric|min:0',
             'rating' => 'nullable|numeric|min:0|max:5',
         ]);
+
+        // Handle image upload for updates
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('restaurants', 'public');
+            $validated['image'] = $imagePath;
+        }
 
         $restaurant->update($validated);
         return response()->json($restaurant);

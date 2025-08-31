@@ -144,15 +144,15 @@
   </Layout>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Layout from '../../layout/Layout.vue';
 import { Link } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
 import { onMounted } from 'vue';
 
-defineProps<{
-  restaurant: any;
-}>();
+const props = defineProps({
+  restaurant: Object
+});
 
 onMounted(() => {
   document.title = 'Restaurant Dashboard - QuickBite';

@@ -12,7 +12,7 @@
       <div class="row">
         <div v-for="restaurant in restaurants" :key="restaurant.id" class="col-12 col-md-6 col-lg-4 mb-4">
           <div class="card h-100 shadow-sm">
-            <img :src="restaurant.image || '/placeholder-restaurant.jpg'" :alt="restaurant.name" class="card-img-top"
+            <img :src="restaurant.image ? '/storage/' + restaurant.image : 'https://via.placeholder.com/400x300'" :alt="restaurant.name" class="card-img-top"
               style="height: 200px; object-fit: cover;" />
             <div class="card-body">
               <h5 class="card-title">{{ restaurant.name }}</h5>

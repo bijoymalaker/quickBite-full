@@ -9,7 +9,12 @@
         </div>
       </div>
 
-      <div class="container bg-light p-4 d-flex justify-content-between align-items-center position-relative res-bg">
+    <div
+      class="container bg-light p-4 d-flex justify-content-between align-items-center position-relative res-bg"
+      :style="{
+        backgroundImage: `linear-gradient(rgba(226, 226, 226, 0.5), rgba(226, 226, 226, 0.5)), url('${restaurant?.image ? '/storage/' + restaurant?.image : '/placeholder-restaurant.jpg'}')`
+      }"
+    >
         <div>
           <h2>{{ restaurant?.name || 'Restaurant' }}</h2>
           <p>Minimum Order: ৳{{ restaurant?.minimum_order || 0 }} | Delivery in 20-30 Minutes</p>
@@ -27,13 +32,13 @@
           </div>
           <p>1,200+ reviews</p>
         </div>
-        <img :src="restaurant?.image || '/placeholder-restaurant.jpg'" alt="Restaurant Image" class="restaurant-image" />
+        <img :src="restaurant?.image ? '/storage/' + restaurant?.image : '/placeholder-restaurant.jpg'" alt="Restaurant Image" class="restaurant-image" />
       </div>
 
       <div class="container">
         <div class="row my-4 align-items-baseline">
-          <div class="col-12 col-md-2 mb-3 mb-md-0">
-            <h1>Menus</h1>
+          <div class="col-12 col-md-4 mb-3 mb-md-0">
+            <h1 class=" text-center">Menus</h1>
             <div class="d-md-none">
               <select class="form-select" v-model="selectFoodCategory">
                 <option v-for="(category, index) in foodCategory" :key="index" :value="category">{{ category }}</option>
@@ -45,7 +50,7 @@
           </div>
 
           <div class="col-12 col-md-6">
-            <h1>{{ selectFoodCategory }}</h1>
+            <h1 class=" text-center">{{ selectFoodCategory }}</h1>
             <div class="tab-content">
               <div class="tab-pane fade show active">
                 <div class="row" v-if="filteredFoods.length > 0">
@@ -56,7 +61,7 @@
                         <div class="text-danger fs-5">🌶🌶🌶🌶🌶</div>
                         <p class="text-muted">{{ food.description }}</p>
                       </div>
-                      <img :src="food.image || '/placeholder-food.jpg'" :alt="food.name" class="rounded-circle object-fit-cover" width="80" height="80" />
+                      <img :src="food.image ? '/storage/' + food.image : '/placeholder-food.jpg'" :alt="food.name" class="rounded-circle object-fit-cover" width="80" height="80" />
                     </div>
                     <div class="mt-3 d-flex flex-wrap gap-2">
                       <button class="btn btn-dark" @click="orderFood(food, 'Small')">Small ৳{{ food.price }}</button>
@@ -77,9 +82,9 @@
             </div>
           </div>
 
-          <div class="col-0 col-md-4">
+          <!-- <div class="col-0 col-md-4">
             <ShoppingBacket />
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -91,7 +96,7 @@ import { ref, computed, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import axios from 'axios'
 import Layout from '@/layout/Layout.vue'
-import ShoppingBacket from '@/components/ShoppingBacket.vue'
+// import ShoppingBacket from '@/components/ShoppingBacket.vue'
 
 const props = defineProps({
   id: {
@@ -165,9 +170,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
 .res-bg {
-  background-image: linear-gradient(rgba(226, 226, 226, 0.5), rgba(226, 226, 226, 0.5)),
-    url("../assets/imgs/restuarent/Rectangle44.png");
+  
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

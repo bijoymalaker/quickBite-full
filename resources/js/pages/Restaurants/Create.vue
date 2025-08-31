@@ -40,13 +40,18 @@
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label">Image URL</label>
-                  <input v-model="form.image" type="url" class="form-control">
+                  <label class="form-label">Restaurant Image</label>
+                  <input @change="handleImageUpload" type="file" class="form-control" accept="image/*">
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label">Minimum Order</label>
                   <input v-model="form.minimum_order" type="number" step="0.01" class="form-control" value="0">
+                </div>
+
+                <div class="mb-3 form-check">
+                  <input v-model="form.is_open" type="checkbox" class="form-check-input" id="isOpenCheck">
+                  <label class="form-check-label" for="isOpenCheck">Is Open</label>
                 </div>
 
                 <div class="mb-3">
@@ -92,17 +97,39 @@ const form = ref({
   minimum_order: 0,
   opening_time: '',
   closing_time: '',
-  image: ''
+  image: null,
+  is_open: true
 })
+
+const handleImageUpload = (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    form.value.image = file
+  }
+}
 
 const submitForm = async () => {
   try {
-    const restaurantData = {
-      ...form.value,
-      is_open: true
-    }
+    const formData = new FormData()
 
-    await axios.post('/api/restaurants', restaurantData)
+    // Add all form fields to FormData
+    Object.keys(form.value).forEach(key => {
+      if (key === 'image' && form.value[key]) {
+        formData.append(key, form.value[key])
+      } else if (key === 'is_open') {
+        // Convert boolean to integer for proper FormData handling
+        formData.append(key, form.value[key] ? '1' : '0')
+      } else if (form.value[key] !== null && form.value[key] !== '') {
+        formData.append(key, form.value[key])
+      }
+    })
+
+    await axios.post('/api/restaurants', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
     router.visit('/restaurants')
   } catch (error) {
     console.error('Error adding restaurant:', error)
