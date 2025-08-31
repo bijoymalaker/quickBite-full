@@ -43,27 +43,16 @@
     </Layout>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Layout from '@/layout/Layout.vue';
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import { useCartStore } from '@/store/cartStore';
 
-// Define product interface
-interface Product {
-    id: number;
-    name: string;
-    description: string;
-    price: string;
-    category: string;
-    image: string;
-    is_available: boolean;
-}
-
 // Reactive data
-const selectedCategory = ref<string>("All");
-const categories = ref<string[]>(["All"]);
-const menu = ref<Product[]>([]);
+const selectedCategory = ref("All");
+const categories = ref(["All"]);
+const menu = ref([]);
 const cartStore = useCartStore();
 
 // Fetch products from API
@@ -73,7 +62,7 @@ const fetchProducts = async () => {
         menu.value = response.data;
         
         // Extract unique categories
-        const uniqueCategories = [...new Set(response.data.map((item: Product) => item.category))] as string[];
+        const uniqueCategories = [...new Set(response.data.map(item => item.category))];
         categories.value = ["All", ...uniqueCategories];
     } catch (error) {
         console.error('Error fetching products:', error);
@@ -81,7 +70,7 @@ const fetchProducts = async () => {
 };
 
 // Computed property for filtered menu
-const filteredMenu = computed<Product[]>(() => {
+const filteredMenu = computed(() => {
     if (selectedCategory.value === "All") {
         return menu.value;
     }
@@ -89,9 +78,8 @@ const filteredMenu = computed<Product[]>(() => {
 });
 
 // Add to cart function
-const addToCart = (item: Product) => {
+const addToCart = (item) => {
     if (!item.is_available) return;
-    
     cartStore.addItem(item);
     alert(`${item.name} added to cart!`);
 };

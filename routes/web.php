@@ -5,6 +5,9 @@ use App\Http\Controllers\RestaurantController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+
+// Publicly accessible routes
+
 Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
@@ -47,6 +50,46 @@ Route::get('tracking', function () {
 Route::get('checkout', function () {
     return Inertia::render('Checkout');
 })->name('checkout');
+
+
+//  Other static pages Routes
+
+Route::get('terms-and-conditions', function () {
+    return Inertia::render('otherPages/TermsAndConditions');
+})->name('terms-and-conditions');
+
+Route::get('privacy-policy', function () {
+    return Inertia::render('otherPages/PrivacyPolicy');
+})->name('privacy-policy');
+
+Route::get('site-map', function () {
+    return Inertia::render('otherPages/SiteMap');
+})->name('site-map');
+
+Route::get('contact-us', function () {
+    return Inertia::render('otherPages/ContactUs');
+})->name('contact-us');
+
+Route::get('cookies', function () {
+    return Inertia::render('otherPages/Cookies');
+})->name('cookies');
+
+Route::get('modern-slavery-statement', function () {
+    return Inertia::render('otherPages/ModernSlaveryStatement');
+})->name('modern-slavery-statement');
+
+Route::get('corporate-documents', function () {
+    return Inertia::render('otherPages/CorporateDocuments');
+})->name('corporate-documents');
+
+Route::get('do-not-sell-my-personal-information', function () {
+    return Inertia::render('otherPages/DoNotSellMyPersonalInformation');
+})->name('do-not-sell-my-personal-information');
+
+
+
+
+// Authenticated user routes
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
