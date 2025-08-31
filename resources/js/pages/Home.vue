@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 // Restaurants name and image
 import Rectangle7 from '../assets/imgs/Rectangle7.png';
 import Rectangle8 from '../assets/imgs/Rectangle8.png';

@@ -74,13 +74,6 @@ Route::get('api/restaurants/{restaurant}', [RestaurantController::class, 'show']
 Route::put('api/restaurants/{restaurant}', [RestaurantController::class, 'update'])->name('api.restaurants.update');
 Route::delete('api/restaurants/{restaurant}', [RestaurantController::class, 'destroy'])->name('api.restaurants.destroy');
 
-// Food management routes
-Route::get('api/foods', [ProductController::class, 'index'])->name('api.foods.index');
-Route::post('api/foods', [ProductController::class, 'store'])->name('api.foods.store');
-Route::get('api/foods/{food}', [ProductController::class, 'show'])->name('api.foods.show');
-Route::put('api/foods/{food}', [ProductController::class, 'update'])->name('api.foods.update');
-Route::delete('api/foods/{food}', [ProductController::class, 'destroy'])->name('api.foods.destroy');
-Route::get('api/restaurants/{restaurant}/foods', [ProductController::class, 'restaurantFoods'])->name('api.restaurants.foods');
 
 // Product management routes
 Route::get('products', [ProductController::class, 'index'])->name('products.index');
