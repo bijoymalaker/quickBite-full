@@ -14,16 +14,16 @@
                 </div>
                 <div class="col-md-2 mb-3 mb-md-0">
                     <h5>Legal Pages</h5>
-                    <a href="#">Terms & Conditions</a><br>
-                    <a href="#">Privacy Policy</a>
+                    <Link :href="route('terms-and-conditions')">Terms & Conditions</Link><br>
+                    <Link :href="route('privacy-policy')">Privacy Policy</Link>
                 </div>
                 <div class="col-md-2 mb-3 mb-md-0">
                     <h5>Important Links</h5>
-                    <a href="#">Site Map</a><br>
-                    <a href="#">Contact Us</a><br>
-                    <a href="#">Cookies</a><br>
-                    <a href="#">Modern Slavery Statement</a><br>
-                    <a href="#">Corporate Documents</a>
+                    <Link :href="route('site-map')">Site Map</Link><br>
+                    <Link :href="route('contact-us')">Contact Us</Link><br>
+                    <Link :href="route('cookies')">Cookies</Link><br>
+                    <Link :href="route('modern-slavery-statement')">Modern Slavery Statement</Link><br>
+                    <Link :href="route('corporate-documents')">Corporate Documents</Link>
                 </div>
                 <div class="col-md-2">
                     <h5>Follow Us</h5>
@@ -38,8 +38,7 @@
             <div class="row mt-3">
                 <div class="col text-center">
                     <p>Company © 2021-2025 - All Rights Reserved with House of Companies</p>
-                    <a href="#">Privacy Policy</a> | <a href="#">Terms</a> | <a href="#">Do not sell my personal
-                        information</a>
+                    <Link :href="route('privacy-policy')">Privacy Policy</Link> | <Link :href="route('terms-and-conditions')">Terms</Link> | <Link :href="route('do-not-sell-my-personal-information')">Do not sell my personal information</Link>
                 </div>
             </div>
         </div>
@@ -47,19 +46,9 @@
         
     </div>
 </template>
-<script>
-export default {
-    name: "Footer",
-    data() {
-        return {
-            
-        };
-    },
-    components: {  
-    
-    }
-    
-}
+<script setup>
+import { Link } from '@inertiajs/vue3';
+import { route } from 'ziggy-js';
 </script>
 <style scoped>
     
