@@ -145,7 +145,7 @@
 </template>
 
 <script setup lang="ts">
-import Layout from '@/layout/Layout.vue';
+import Layout from '../../layout/Layout.vue';
 import { Link } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
 import { onMounted } from 'vue';
