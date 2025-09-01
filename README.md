@@ -32,3 +32,10 @@ This is a comprehensive restaurant and food management system built with Laravel
 2. Click "Add Restaurant" to add new restaurants
 3. Click "View Foods" on any restaurant to see their food items
 4. Navigate to `/foods` to manage food items
+
+
+## SSL config
+
+SSLCZ_STORE_ID=quick68b52ad1379ae
+SSLCZ_STORE_PASSWORD=quick68b52ad1379ae@ssl
+SSLCZ_TESTMODE=true #true for sandbox and false for live
