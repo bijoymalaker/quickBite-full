@@ -141,9 +141,9 @@ Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheck
 Route::post('/pay', [SslCommerzPaymentController::class, 'index']);
 Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
 
-Route::post('/success', [SslCommerzPaymentController::class, 'success']);
-Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
-Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+Route::match(['get', 'post'], '/success', [SslCommerzPaymentController::class, 'success']);
+Route::match(['get', 'post'], '/fail', [SslCommerzPaymentController::class, 'fail']);
+Route::match(['get', 'post'], '/cancel', [SslCommerzPaymentController::class, 'cancel']);
 
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 //SSLCOMMERZ END

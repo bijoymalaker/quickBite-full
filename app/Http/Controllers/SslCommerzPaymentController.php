@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Library\SslCommerz\SslCommerzNotification;
+use Inertia\Inertia;
 
 class SslCommerzPaymentController extends Controller
 {
@@ -161,8 +162,6 @@ class SslCommerzPaymentController extends Controller
 
     public function success(Request $request)
     {
-        echo "Transaction is Successful";
-
         $tran_id = $request->input('tran_id');
         $amount = $request->input('amount');
         $currency = $request->input('currency');
@@ -174,7 +173,7 @@ class SslCommerzPaymentController extends Controller
             ->where('transaction_id', $tran_id)
             ->select('transaction_id', 'status', 'currency', 'amount')->first();
 
-        if ($order_details->status == 'Pending') {
+        if ($order_details && $order_details->status == 'Pending') {
             $validation = $sslc->orderValidate($request->all(), $tran_id, $amount, $currency);
 
             if ($validation) {
@@ -187,19 +186,17 @@ class SslCommerzPaymentController extends Controller
                     ->where('transaction_id', $tran_id)
                     ->update(['status' => 'Processing']);
 
-                echo "<br >Transaction is successfully Completed";
+                return Inertia::render('payment/Success', ['orderDetails' => $order_details]);
             }
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
+        } else if ($order_details && ($order_details->status == 'Processing' || $order_details->status == 'Complete')) {
             /*
              That means through IPN Order status already updated. Now you can just show the customer that transaction is completed. No need to udate database.
              */
-            echo "Transaction is successfully Completed";
+            return Inertia::render('payment/Success', ['orderDetails' => $order_details]);
         } else {
             #That means something wrong happened. You can redirect customer to your product page.
-            echo "Invalid Transaction";
+            return Inertia::render('payment/Fail', ['error' => 'Invalid Transaction']);
         }
-
-
     }
 
     public function fail(Request $request)
@@ -210,17 +207,16 @@ class SslCommerzPaymentController extends Controller
             ->where('transaction_id', $tran_id)
             ->select('transaction_id', 'status', 'currency', 'amount')->first();
 
-        if ($order_details->status == 'Pending') {
+        if ($order_details && $order_details->status == 'Pending') {
             $update_product = DB::table('orders')
                 ->where('transaction_id', $tran_id)
                 ->update(['status' => 'Failed']);
-            echo "Transaction is Falied";
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
-            echo "Transaction is already Successful";
+            return Inertia::render('payment/Fail', ['orderDetails' => $order_details]);
+        } else if ($order_details && ($order_details->status == 'Processing' || $order_details->status == 'Complete')) {
+            return Inertia::render('payment/Success', ['orderDetails' => $order_details]);
         } else {
-            echo "Transaction is Invalid";
+            return Inertia::render('payment/Fail', ['error' => 'Transaction is Invalid']);
         }
-
     }
 
     public function cancel(Request $request)
@@ -231,18 +227,16 @@ class SslCommerzPaymentController extends Controller
             ->where('transaction_id', $tran_id)
             ->select('transaction_id', 'status', 'currency', 'amount')->first();
 
-        if ($order_details->status == 'Pending') {
+        if ($order_details && $order_details->status == 'Pending') {
             $update_product = DB::table('orders')
                 ->where('transaction_id', $tran_id)
                 ->update(['status' => 'Canceled']);
-            echo "Transaction is Cancel";
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
-            echo "Transaction is already Successful";
+            return Inertia::render('payment/Cancel', ['orderDetails' => $order_details]);
+        } else if ($order_details && ($order_details->status == 'Processing' || $order_details->status == 'Complete')) {
+            return Inertia::render('payment/Success', ['orderDetails' => $order_details]);
         } else {
-            echo "Transaction is Invalid";
+            return Inertia::render('payment/Cancel', ['error' => 'Transaction is Invalid']);
         }
-
-
     }
 
     public function ipn(Request $request)
