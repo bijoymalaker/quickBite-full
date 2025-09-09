@@ -12,7 +12,7 @@
     <div
       class="container bg-light p-4 d-flex justify-content-between align-items-center position-relative res-bg"
       :style="{
-        backgroundImage: `linear-gradient(rgba(226, 226, 226, 0.5), rgba(226, 226, 226, 0.5)), url('${restaurant?.image ? '/storage/' + restaurant?.image : '/placeholder-restaurant.jpg'}')`
+        backgroundImage: `linear-gradient(rgba(226, 226, 226, 0.5), rgba(226, 226, 226, 0.5)), url('${restaurant?.image ? '/storage/' + restaurant?.image : 'https://via.placeholder.com/800x400?text=Restaurant+Image'}')`
       }"
     >
         <div>
@@ -32,7 +32,7 @@
           </div>
           <p>1,200+ reviews</p>
         </div>
-        <img :src="restaurant?.image ? '/storage/' + restaurant?.image : '/placeholder-restaurant.jpg'" alt="Restaurant Image" class="restaurant-image" />
+        <img :src="restaurant?.image ? '/storage/' + restaurant?.image : 'https://via.placeholder.com/150x150?text=Restaurant'" alt="Restaurant Image" class="restaurant-image" />
       </div>
 
       <div class="container">
@@ -61,7 +61,7 @@
                         <div class="text-danger fs-5">🌶🌶🌶🌶🌶</div>
                         <p class="text-muted">{{ food.description }}</p>
                       </div>
-                      <img :src="food.image ? '/storage/' + food.image : '/placeholder-food.jpg'" :alt="food.name" class="rounded-circle object-fit-cover" width="80" height="80" />
+                        <img :src="food.image ? '/storage/' + food.image : 'https://via.placeholder.com/80x80?text=Food'" :alt="food.name" class="rounded-circle object-fit-cover" width="80" height="80" />
                     </div>
                     <div class="mt-3 d-flex flex-wrap gap-2">
                       <button class="btn btn-dark" @click="orderFood(food, 'Small')">Small ৳{{ food.price }}</button>
