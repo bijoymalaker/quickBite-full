@@ -75,8 +75,7 @@
                   <select class="form-select" v-model="form.paymentMethod" required>
                     <option value="">Select payment method</option>
                     <option value="cash">Cash on Delivery</option>
-                    <option value="card">Credit/Debit Card</option>
-                    <option value="paypal">PayPal</option>
+                    <option value="card">Online Transection</option>
                   </select>
                 </div>
 
@@ -99,51 +98,55 @@
   </Layout>
 </template>
 
-<script>
+<script setup>
+import { ref, reactive, computed } from 'vue';
 import Layout from '@/layout/Layout.vue';
 import { useCartStore } from '@/store/cartStore';
 import { router } from '@inertiajs/vue3';
 
-export default {
-  components: {
-    Layout
-  },
-  setup() {
-    const cart = useCartStore();
-    return { cart };
-  },
-  data() {
-    return {
-      discount: 3.00,
-      deliveryFee: 2.50,
-      isSubmitting: false,
-      form: {
-        name: '',
-        email: '',
-        phone: '',
-        address: '',
-        paymentMethod: '',
-        instructions: ''
-      }
-    };
-  },
-  computed: {
-    total() {
-      return this.cart.cartTotal - this.discount + this.deliveryFee;
-    }
-  },
-  methods: {
-    placeOrder() {
-      this.isSubmitting = true;
-      
-      // Simulate order processing
-      setTimeout(() => {
-        alert('Order placed successfully!');
-        this.cart.clearCart();
-        router.visit('/tracking');
-        this.isSubmitting = false;
-      }, 2000);
-    }
+const cart = useCartStore();
+
+const discount = ref(3.00);
+const deliveryFee = ref(2.50);
+const isSubmitting = ref(false);
+const form = reactive({
+  name: '',
+  email: '',
+  phone: '',
+  address: '',
+  paymentMethod: '',
+  instructions: ''
+});
+
+const total = computed(() => {
+  return cart.cartTotal - discount.value + deliveryFee.value;
+});
+
+const placeOrder = () => {
+  isSubmitting.value = true;
+
+  if (form.paymentMethod === 'card') {
+    // Send to SSL payment
+    router.post('/pay', {
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      address: form.address,
+      instructions: form.instructions,
+      total: total.value,
+      cart: cart.items
+    });
+  } else if (form.paymentMethod === 'cash') {
+    // Handle cash on delivery
+    setTimeout(() => {
+      alert('Order placed successfully! Pay on delivery.');
+      cart.clearCart();
+      router.visit('/tracking');
+      isSubmitting.value = false;
+    }, 2000);
+  } else {
+    alert('Please select a payment method.');
+    isSubmitting.value = false;
   }
 };
 </script>
