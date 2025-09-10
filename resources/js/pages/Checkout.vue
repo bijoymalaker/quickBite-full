@@ -50,29 +50,29 @@
                 <!-- Customer Information -->
                 <div class="mb-3">
                   <label class="form-label">Full Name</label>
-                  <input type="text" class="form-control" v-model="form.name" required>
+                  <input type="text" class="form-control" v-model="billing.name" required>
                 </div>
-                
+
                 <div class="mb-3">
                   <label class="form-label">Email</label>
-                  <input type="email" class="form-control" v-model="form.email" required>
+                  <input type="email" class="form-control" v-model="billing.email" required>
                 </div>
-                
+
                 <div class="mb-3">
                   <label class="form-label">Phone Number</label>
-                  <input type="tel" class="form-control" v-model="form.phone" required>
+                  <input type="tel" class="form-control" v-model="billing.phone" required>
                 </div>
 
                 <!-- Delivery Address -->
                 <div class="mb-3">
                   <label class="form-label">Delivery Address</label>
-                  <textarea class="form-control" v-model="form.address" rows="3" required></textarea>
+                  <textarea class="form-control" v-model="billing.address" rows="3" required></textarea>
                 </div>
 
                 <!-- Payment Method -->
                 <div class="mb-3">
                   <label class="form-label">Payment Method</label>
-                  <select class="form-select" v-model="form.paymentMethod" required>
+                  <select class="form-select" v-model="billing.paymentMethod" required>
                     <option value="">Select payment method</option>
                     <option value="cash">Cash on Delivery</option>
                     <option value="card">Online Transection</option>
@@ -82,7 +82,7 @@
                 <!-- Special Instructions -->
                 <div class="mb-3">
                   <label class="form-label">Special Instructions (Optional)</label>
-                  <textarea class="form-control" v-model="form.instructions" rows="2"></textarea>
+                  <textarea class="form-control" v-model="billing.instructions" rows="2"></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100" :disabled="isSubmitting">
@@ -109,7 +109,7 @@ const cart = useCartStore();
 const discount = ref(3.00);
 const deliveryFee = ref(2.50);
 const isSubmitting = ref(false);
-const form = reactive({
+const billing = reactive({
   name: '',
   email: '',
   phone: '',
@@ -125,18 +125,42 @@ const total = computed(() => {
 const placeOrder = () => {
   isSubmitting.value = true;
 
-  if (form.paymentMethod === 'card') {
-    // Send to SSL payment
-    router.post('/pay', {
-      name: form.name,
-      email: form.email,
-      phone: form.phone,
-      address: form.address,
-      instructions: form.instructions,
-      total: total.value,
-      cart: cart.items
+  if (billing.paymentMethod === 'card') {
+    // Create a form and submit to /pay like exampleHosted.blade.php
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/pay';
+
+    // Add CSRF token
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = '_token';
+    csrfInput.value = csrfToken;
+    form.appendChild(csrfInput);
+
+    // Add form data as hidden inputs
+    const formData = {
+      customer_name: billing.name,
+      customer_email: billing.email,
+      customer_mobile: billing.phone,
+      address: billing.address,
+      instructions: billing.instructions,
+      amount: total.value,
+      cart: JSON.stringify(cart.items)
+    };
+
+    Object.keys(formData).forEach(key => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = formData[key] || '';
+      form.appendChild(input);
     });
-  } else if (form.paymentMethod === 'cash') {
+
+    document.body.appendChild(form);
+    form.submit();
+  } else if (billing.paymentMethod === 'cash') {
     // Handle cash on delivery
     setTimeout(() => {
       alert('Order placed successfully! Pay on delivery.');
@@ -149,6 +173,7 @@ const placeOrder = () => {
     isSubmitting.value = false;
   }
 };
+
 </script>
 
 <style scoped>
