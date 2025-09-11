@@ -1,4 +1,4 @@
-<script>
+<script setup>
 // Restaurants name and image
 import Rectangle7 from '../assets/imgs/Rectangle7.png';
 import Rectangle8 from '../assets/imgs/Rectangle8.png';
@@ -11,43 +11,48 @@ import Add from '../components/Add.vue';
 import Categories from '../components/Categories.vue';
 import CountDown from '../components/CountDown.vue';
 import ResCaro from '../components/ResCaro.vue';
-export default {
-    name: 'Home',
-    data() {
-        return {
-            foodName: ['Vegan', 'Sushi', 'Pizza & Fast food', 'Others'],
-            resName: [
-                {
-                    name: 'Chef Burgers London',
-                    discount: '-40%',
-                    img: Rectangle7,
-                },
-                {
-                    name: 'Grand Ai Cafe London',
-                    discount: '-20%',
-                    img: Rectangle9,
-                },
-                {
-                    name: 'Butterbrot Cafe London',
-                    discount: '-17%',
-                    img: Rectangle8,
-                },
-            ],
-        };
-    },
-    mounted() {
-        document.title = 'Home - Pretty Picks';
-    },
-    components: {
-        Layout,
-        Categories,
-        ResCaro,
-        Add,
-        AboutUs,
-        CountDown,
-    },
-};
+
+import { ref, onMounted } from 'vue';
+
+// State
+const foodName = ref(['Vegan', 'Sushi', 'Pizza & Fast food', 'Others']);
+
+const resName = ref([
+  {
+    name: 'Chef Burgers London',
+    discount: '-40%',
+    img: Rectangle7,
+  },
+  {
+    name: 'Grand Ai Cafe London',
+    discount: '-20%',
+    img: Rectangle9,
+  },
+  {
+    name: 'Butterbrot Cafe London',
+    discount: '-17%',
+    img: Rectangle8,
+  },
+]);
+
+// Props
+defineProps({
+  restaurants: {
+    type: Array,
+    required: true
+  }
+});
+
+// Lifecycle
+onMounted(() => {
+  document.title = 'Home - Pretty Picks';
+});
+
+
+
+
 </script>
+
 
 <template>
     
@@ -141,7 +146,7 @@ export default {
             </section>
 
             <Categories />
-            <ResCaro />
+            <ResCaro :restaurants="restaurants" />
             <Add />
             <AboutUs />
             <CountDown />

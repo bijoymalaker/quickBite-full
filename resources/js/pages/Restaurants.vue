@@ -4,9 +4,11 @@
     <div class="container py-5">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h2 mb-0">Restaurants</h1>
-        <button @click="createRestaurant" class="btn btn-primary">
+        <div v-if="$page.props.auth.user && $page.props.auth.user.role === 'restaurant'">
+          <button @click="createRestaurant" class="btn btn-primary">
           Add Restaurant
         </button>
+        </div>
       </div>
 
       <div class="row">

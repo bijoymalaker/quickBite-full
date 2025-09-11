@@ -10,7 +10,10 @@ use Inertia\Inertia;
 // Publicly accessible routes
 
 Route::get('/', function () {
-    return Inertia::render('Home');
+    $restaurants = \App\Models\Restaurant::with('products')->get();
+    return Inertia::render('Home', [
+        'restaurants' => $restaurants
+    ]);
 })->name('home');
 
 Route::get('menus', function () {

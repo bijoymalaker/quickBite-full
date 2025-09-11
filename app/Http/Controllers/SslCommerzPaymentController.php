@@ -85,6 +85,9 @@ class SslCommerzPaymentController extends Controller
 
     public function success(Request $request)
     {
+        // Regenerate session to prevent 419 error
+        $request->session()->regenerate();
+
         $tran_id = $request->input('tran_id');
         $amount = $request->input('amount');
         $currency = $request->input('currency');
@@ -124,6 +127,9 @@ class SslCommerzPaymentController extends Controller
 
     public function fail(Request $request)
     {
+        // Regenerate session to prevent 419 error
+        $request->session()->regenerate();
+
         $tran_id = $request->input('tran_id');
 
         $order_details = DB::table('orders')
@@ -144,6 +150,9 @@ class SslCommerzPaymentController extends Controller
 
     public function cancel(Request $request)
     {
+        // Regenerate session to prevent 419 error
+        $request->session()->regenerate();
+
         $tran_id = $request->input('tran_id');
 
         $order_details = DB::table('orders')
