@@ -135,7 +135,6 @@ Route::get('api/menu-products', [ProductController::class, 'menuProducts'])->nam
 
 
 // SSLCOMMERZ Start
-Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
 
 Route::post('/pay', [SslCommerzPaymentController::class, 'index']);
 

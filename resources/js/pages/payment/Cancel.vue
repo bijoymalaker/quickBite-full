@@ -43,6 +43,12 @@ export default {
                                 <p><strong>Amount:</strong> {{ orderDetails.amount }} {{ orderDetails.currency }}</p>
                                 <p><strong>Status:</strong> {{ orderDetails.status }}</p>
                             </div>
+                            <div v-else-if="error" class="alert alert-danger">
+                                <p>{{ error }}</p>
+                            </div>
+                            <div v-else class="alert alert-secondary">
+                                <p>Payment cancelled. No order was processed.</p>
+                            </div>
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                 <a href="/checkout" class="btn btn-primary me-md-2">

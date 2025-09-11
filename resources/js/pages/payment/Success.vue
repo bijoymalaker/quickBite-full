@@ -46,6 +46,9 @@ export default {
                                 <p><strong>Amount:</strong> {{ orderDetails.amount }} {{ orderDetails.currency }}</p>
                                 <p><strong>Status:</strong> {{ orderDetails.status }}</p>
                             </div>
+                            <div v-else class="alert alert-warning">
+                                <p>No order details available. Please contact support if you believe this is an error.</p>
+                            </div>
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                                 <a href="/" class="btn btn-primary me-md-2">

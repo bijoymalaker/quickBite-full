@@ -81,7 +81,7 @@
 
                 <button type="submit" class="btn btn-primary w-100" :disabled="isSubmitting">
                   <span v-if="isSubmitting" class="spinner-border spinner-border-sm me-2"></span>
-                  {{ isSubmitting ? 'Processing...' : 'Place Order' }}
+                  {{ isSubmitting ? 'Redirecting to Payment Gateway...' : 'Place Order' }}
                 </button>
               </form>
             </div>
