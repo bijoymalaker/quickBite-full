@@ -79,12 +79,6 @@
                   </select>
                 </div>
 
-                <!-- Special Instructions -->
-                <div class="mb-3">
-                  <label class="form-label">Special Instructions (Optional)</label>
-                  <textarea class="form-control" v-model="billing.instructions" rows="2"></textarea>
-                </div>
-
                 <button type="submit" class="btn btn-primary w-100" :disabled="isSubmitting">
                   <span v-if="isSubmitting" class="spinner-border spinner-border-sm me-2"></span>
                   {{ isSubmitting ? 'Processing...' : 'Place Order' }}
@@ -114,8 +108,7 @@ const billing = reactive({
   email: '',
   phone: '',
   address: '',
-  paymentMethod: '',
-  instructions: ''
+  paymentMethod: ''
 });
 
 const total = computed(() => {
@@ -145,9 +138,7 @@ const placeOrder = () => {
       customer_email: billing.email,
       customer_mobile: billing.phone,
       address: billing.address,
-      instructions: billing.instructions,
-      amount: total.value,
-      cart: JSON.stringify(cart.items)
+      amount: total.value
     };
 
     Object.keys(formData).forEach(key => {

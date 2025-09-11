@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -11,18 +12,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->string('transaction_id')->unique();
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone');
-            $table->decimal('amount', 10, 2);
-            $table->enum('status', ['Pending', 'Processing', 'Complete', 'Failed', 'Canceled'])->default('Pending');
-            $table->text('address');
-            $table->string('currency', 3);
-            $table->timestamps();
-        });
+        DB::statement("CREATE TABLE `orders` (
+          `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+          `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `email` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `amount` double DEFAULT NULL,
+          `address` text COLLATE utf8_unicode_ci,
+          `status` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `transaction_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+          `currency` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
     }
 
     /**
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        DB::statement("DROP TABLE IF EXISTS `orders`;");
     }
 };

@@ -70,9 +70,7 @@ class SslCommerzPaymentController extends Controller
                 'status' => 'Pending',
                 'address' => $post_data['cus_add1'],
                 'transaction_id' => $post_data['tran_id'],
-                'currency' => $post_data['currency'],
-                'instructions' => $post_data['value_a'],
-                'cart' => $post_data['value_b']
+                'currency' => $post_data['currency']
             ]);
 
         $sslc = new SslCommerzNotification();
