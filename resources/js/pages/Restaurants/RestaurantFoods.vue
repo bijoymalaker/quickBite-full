@@ -64,14 +64,15 @@
                         <img :src="food.image ? '/storage/' + food.image : 'https://via.placeholder.com/80x80?text=Food'" :alt="food.name" class="rounded-circle object-fit-cover" width="80" height="80" />
                     </div>
                     <div class="mt-3 d-flex flex-wrap gap-2">
-                      <button class="btn btn-dark" @click="orderFood(food, 'Small')">Small ৳{{ food.price }}</button>
-                      <button class="btn btn-success" @click="orderFood(food, 'Medium')">Medium ৳{{ food.price }}</button>
-                      <button class="btn btn-primary" @click="orderFood(food, 'Large')">Large ৳{{ food.price }}</button>
-                      <button class="btn btn-warning" @click="orderFood(food, 'XLarge')">XLarge with Sauces ৳{{ food.price }}</button>
+                      <h5>Price: ৳{{ food.price }}</h5>
                     </div>
-                    <div class="mt-2 d-flex gap-2">
+                    <div class="mt-2 d-flex gap-2" v-if="$page.props.auth.user && $page.props.auth.user.role === 'restaurant'">
                       <button class="btn btn-warning" @click="editFood(food)">Edit</button>
                       <button class="btn btn-danger" @click="deleteFood(food.id)">Delete</button>
+                      <button class="btn btn-warning" @click="addToCart(food)">Add to Cart</button>
+                    </div>
+                    <div class="mt-2 d-flex gap-2" v-if="$page.props.auth.user && $page.props.auth.user.role === 'user'">
+                      <button class="btn btn-warning" @click="addToCart(food)">Add to Cart</button>
                     </div>
                   </div>
                 </div>
@@ -96,7 +97,10 @@ import { ref, computed, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import axios from 'axios'
 import Layout from '@/layout/Layout.vue'
+import { useCartStore } from '@/store/cartStore'
 // import ShoppingBacket from '@/components/ShoppingBacket.vue'
+
+const cartStore = useCartStore()
 
 const props = defineProps({
   id: {
@@ -157,6 +161,11 @@ const deleteFood = async (id) => {
     }
   }
 }
+const addToCart = (item) => {
+    if (!item.is_available) return;
+    cartStore.addItem(item);
+    alert(`${item.name} added to cart!`);
+};
 
 const orderFood = (food, size) => {
   // Placeholder for ordering logic

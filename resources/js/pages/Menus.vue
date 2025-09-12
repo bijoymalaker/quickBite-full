@@ -1,12 +1,12 @@
 <template>
-    <title>Menus - QuickBite</title>
+
     <Layout>
         <div class="container my-5">
             <h2 class="fw-bold text-center text-primary">Browse Our Menu</h2>
             <p class="text-center text-muted">Discover delicious meals and snacks at QuickBite.</p>
 
             <!-- Category Tabs -->
-            <ul class="nav nav-pills justify-content-center mb-4">
+            <ul class="nav nav-pills justify-content-center mb-4 d-none d-md-flex" role="tablist">
                 <li class="nav-item" v-for="category in categories" :key="category">
                     <button class="nav-link" :class="{ active: category === selectedCategory }"
                         @click="selectedCategory = category">
@@ -14,6 +14,13 @@
                     </button>
                 </li>
             </ul>
+            
+            <select class="form-select mb-4 d-md-none" v-model="selectedCategory">
+                <option v-for="category in categories" :key="category" :value="category">
+                    {{ category }}
+                </option>
+            </select>
+            <hr />
 
             <!-- Menu Items -->
             <div class="row">
@@ -98,6 +105,12 @@ onMounted(() => {
 
 .card {
     border-radius: 10px;
+}
+.card img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 300px;
+    object-fit: cover;
 }
 
 .nav-pills .nav-link {
