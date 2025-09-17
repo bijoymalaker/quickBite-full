@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Library\SslCommerz\SslCommerzNotification;
+use App\Models\Order;
 use Inertia\Inertia;
 
 class SslCommerzPaymentController extends Controller
@@ -57,18 +58,18 @@ class SslCommerzPaymentController extends Controller
         $post_data['value_d'] = "ref004";
 
         #Before  going to initiate the payment order status need to insert or update as Pending.
-        $update_product = DB::table('orders')
-            ->where('transaction_id', $post_data['tran_id'])
-            ->updateOrInsert([
+        $order = Order::updateOrCreate(
+            ['transaction_id' => $post_data['tran_id']],
+            [
                 'name' => $post_data['cus_name'],
                 'email' => $post_data['cus_email'],
                 'phone' => $post_data['cus_phone'],
                 'amount' => $post_data['total_amount'],
                 'status' => 'Pending',
                 'address' => $post_data['cus_add1'],
-                'transaction_id' => $post_data['tran_id'],
                 'currency' => $post_data['currency']
-            ]);
+            ]
+        );
 
         $sslc = new SslCommerzNotification();
         # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
@@ -95,8 +96,7 @@ class SslCommerzPaymentController extends Controller
         $sslc = new SslCommerzNotification();
 
         #Check order status in order tabel against the transaction id or order id.
-        $order_details = DB::table('orders')
-            ->where('transaction_id', $tran_id)
+        $order_details = Order::where('transaction_id', $tran_id)
             ->select('transaction_id', 'status', 'currency', 'amount')->first();
 
         if ($order_details && $order_details->status == 'Pending') {
@@ -108,9 +108,7 @@ class SslCommerzPaymentController extends Controller
                 in order table as Processing or Complete.
                 Here you can also sent sms or email for successfull transaction to customer
                 */
-                $update_product = DB::table('orders')
-                    ->where('transaction_id', $tran_id)
-                    ->update(['status' => 'Processing']);
+                $order_details->update(['status' => 'Processing']);
 
                 return Inertia::render('payment/Success', ['orderDetails' => $order_details]);
             }
@@ -132,14 +130,11 @@ class SslCommerzPaymentController extends Controller
 
         $tran_id = $request->input('tran_id');
 
-        $order_details = DB::table('orders')
-            ->where('transaction_id', $tran_id)
+        $order_details = Order::where('transaction_id', $tran_id)
             ->select('transaction_id', 'status', 'currency', 'amount')->first();
 
         if ($order_details && $order_details->status == 'Pending') {
-            $update_product = DB::table('orders')
-                ->where('transaction_id', $tran_id)
-                ->update(['status' => 'Failed']);
+            $order_details->update(['status' => 'Failed']);
             return Inertia::render('payment/Fail', ['orderDetails' => $order_details]);
         } else if ($order_details && ($order_details->status == 'Processing' || $order_details->status == 'Complete')) {
             return Inertia::render('payment/Success', ['orderDetails' => $order_details]);

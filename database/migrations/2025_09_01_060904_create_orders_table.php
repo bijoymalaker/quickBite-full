@@ -12,17 +12,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("CREATE TABLE `orders` (
-          `id` int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-          `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-          `email` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
-          `phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-          `amount` double DEFAULT NULL,
-          `address` text COLLATE utf8_unicode_ci,
-          `status` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
-          `transaction_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-          `currency` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;");
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('email', 30)->nullable();
+            $table->string('phone', 20)->nullable();
+            $table->decimal('amount', 10, 2);
+            $table->text('address')->nullable();
+            $table->string('status', 10)->nullable();
+            $table->string('transaction_id', 255)->nullable();
+            $table->string('currency', 20)->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("DROP TABLE IF EXISTS `orders`;");
+        Schema::dropIfExists('orders');
     }
 };

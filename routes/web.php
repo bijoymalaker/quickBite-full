@@ -39,14 +39,6 @@ Route::get('restaurants/{id}/foods', function ($id) {
     return Inertia::render('Restaurants/RestaurantFoods', ['id' => $id]);
 })->name('restaurants.foods');
 
-Route::get('foods', function () {
-    return Inertia::render('Foods/Index');
-})->name('foods.index');
-
-Route::get('foods/create', function () {
-    return Inertia::render('Foods/Create');
-})->name('foods.create');
-
 Route::get('tracking', function () {
     return Inertia::render('Tracking');
 })->name('tracking');
