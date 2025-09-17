@@ -138,7 +138,8 @@ const total = computed(() => {
         customer_email: billing.email,
         customer_mobile: billing.phone,
         address: billing.address,
-        amount: total.value
+        amount: total.value,
+        cart: cart.items
       };
 
       Object.keys(formData).forEach(key => {
@@ -164,7 +165,8 @@ const total = computed(() => {
           email: billing.email,
           phone: billing.phone,
           address: billing.address,
-          amount: total.value
+          amount: total.value,
+          cart: cart.items
         })
       })
       .then(response => {
@@ -176,7 +178,7 @@ const total = computed(() => {
       .then(data => {
         alert('Order placed successfully! Pay on delivery.');
         cart.clearCart();
-        router.visit('/tracking');
+        router.visit('/tracking?order=' + data.order.transaction_id);
       })
       .catch(error => {
         alert('Error placing order: ' + error.message);

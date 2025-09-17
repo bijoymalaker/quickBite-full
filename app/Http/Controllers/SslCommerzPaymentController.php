@@ -68,7 +68,9 @@ class SslCommerzPaymentController extends Controller
                 'status' => 'Pending',
                 'address' => $post_data['cus_add1'],
                 'currency' => $post_data['currency'],
-                'payment_method' => $request->input('payment_method', 'online')
+                'payment_method' => $request->input('payment_method', 'online'),
+                'items' => $request->input('cart', []),
+                'estimated_delivery' => now()->addHours(1), // Default 1 hour delivery
             ]
         );
 
@@ -230,6 +232,8 @@ class SslCommerzPaymentController extends Controller
             'transaction_id' => uniqid('cash_'),
             'currency' => 'BDT',
             'payment_method' => 'cash',
+            'items' => $request->input('cart', []),
+            'estimated_delivery' => now()->addHours(1), // Default 1 hour delivery
         ]);
 
         return response()->json([

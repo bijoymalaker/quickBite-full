@@ -19,9 +19,15 @@ class Order extends Model
         'transaction_id',
         'currency',
         'payment_method',
+        'items',
+        'progress',
+        'estimated_delivery',
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
+        'items' => 'array',
+        'progress' => 'array',
+        'estimated_delivery' => 'datetime',
     ];
 }

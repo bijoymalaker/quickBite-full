@@ -9,24 +9,8 @@
             </div>
 
             <!-- Order Search Section -->
-            <div class="search-section">
-                <div class="search-card">
-                    <h3>Find Your Order</h3>
-                    <div class="search-form">
-                        <input 
-                            v-model="orderNumber" 
-                            type="text" 
-                            placeholder="Enter Order Number (e.g., QB2024001)"
-                            class="order-input"
-                            @keyup.enter="trackOrder"
-                        />
-                        <button @click="trackOrder" class="track-btn" :disabled="!orderNumber">
-                            <i class="fas fa-search"></i> Track Order
-                        </button>
-                    </div>
-                    <p v-if="searchError" class="error-message">{{ searchError }}</p>
-                </div>
-            </div>
+            <!-- Removed search section as per user request -->
+            <!-- No search UI on tracking page -->
 
             <!-- Order Details Section -->
             <div v-if="currentOrder" class="order-details">
@@ -46,7 +30,7 @@
                         </div>
                         <div class="summary-item">
                             <span>Total:</span>
-                            <strong>৳{{ currentOrder.totalAmount.toFixed(2) }}</strong>
+                            <strong>৳{{ Number(currentOrder.totalAmount).toFixed(2) }}</strong>
                         </div>
                         <div class="summary-item">
                             <span>Estimated Delivery:</span>
@@ -55,22 +39,42 @@
                     </div>
                 </div>
 
-                <!-- Progress Tracker -->
-                <div class="progress-tracker">
-                    <h3>Order Progress</h3>
-                    <div class="progress-steps">
-                        <div 
-                            v-for="(step, index) in progressSteps" 
+                <!-- Order Process Timeline -->
+                <div class="order-process">
+                    <h3>Order Process</h3>
+                    <div class="process-timeline">
+                        <div
+                            v-for="(step, index) in progressSteps"
                             :key="index"
-                            :class="['step', { active: isStepActive(step), completed: isStepCompleted(step) }]"
+                            :class="['timeline-step', { active: isStepActive(step), completed: isStepCompleted(step) }]"
                         >
-                            <div class="step-icon">
-                                <i :class="step.icon"></i>
+                            <div class="timeline-content">
+                                <div class="step-icon">
+                                    <i :class="step.icon"></i>
+                                </div>
+                                <div class="step-details">
+                                    <h4>{{ step.title }}</h4>
+                                    <p>{{ step.description }}</p>
+                                    <span v-if="step.timestamp" class="step-time">{{ formatTime(step.timestamp) }}</span>
+                                </div>
                             </div>
-                            <div class="step-content">
-                                <h4>{{ step.title }}</h4>
-                                <p>{{ step.description }}</p>
-                                <span v-if="step.timestamp" class="step-time">{{ formatTime(step.timestamp) }}</span>
+                            <!-- Order Details for this step (if applicable) -->
+                            <div v-if="isStepCompleted(step) && step.key === 'preparing'" class="step-order-details">
+                                <h5>Preparing Your Order</h5>
+                                <div class="mini-items">
+                                    <div v-for="item in currentOrder.items.slice(0, 2)" :key="item.id" class="mini-item">
+                                        <img :src="item.image || '/placeholder-food.jpg'" :alt="item.name" class="mini-image" />
+                                        <span>{{ item.name }} x{{ item.quantity }}</span>
+                                    </div>
+                                    <p v-if="currentOrder.items.length > 2">+{{ currentOrder.items.length - 2 }} more items</p>
+                                </div>
+                            </div>
+                            <div v-if="isStepCompleted(step) && step.key === 'out-for-delivery'" class="step-order-details">
+                                <h5>Delivery Information</h5>
+                                <p><strong>Address:</strong> {{ currentOrder.deliveryAddress }}</p>
+                                <p v-if="currentOrder.driver">
+                                    <strong>Driver:</strong> {{ currentOrder.driver.name }} ({{ currentOrder.driver.phone }})
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -81,13 +85,13 @@
                     <h3>Order Items</h3>
                     <div class="items-list">
                         <div v-for="item in currentOrder.items" :key="item.id" class="item-card">
-                            <img :src="item.image || '/placeholder-food.jpg'" :alt="item.name" class="item-image">
+                            <img :src="item.image || '/placeholder-food.jpg'" :alt="item.name" class="item-image" />
                             <div class="item-details">
                                 <h4>{{ item.name }}</h4>
                                 <p>{{ item.description }}</p>
                                 <div class="item-meta">
                                     <span class="quantity">Qty: {{ item.quantity }}</span>
-                                    <span class="price">৳{{ item.price.toFixed(2) }}</span>
+                                    <span class="price">৳{{ Number(item.price).toFixed(2) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +138,7 @@
                     <div v-if="currentOrder.driver" class="driver-info">
                         <h4>Delivery Partner</h4>
                         <div class="driver-card">
-                            <img :src="currentOrder.driver.avatar || '/driver-avatar.jpg'" alt="Driver" class="driver-avatar">
+                            <img :src="currentOrder.driver.avatar || '/driver-avatar.jpg'" alt="Driver" class="driver-avatar" />
                             <div class="driver-details">
                                 <h5>{{ currentOrder.driver.name }}</h5>
                                 <p>Vehicle: {{ currentOrder.driver.vehicle }}</p>
@@ -150,15 +154,9 @@
 
                 <!-- Action Buttons -->
                 <div class="action-buttons">
-                    <button @click="reorder" class="btn-reorder">
-                        <i class="fas fa-redo"></i> Reorder
-                    </button>
-                    <button @click="contactSupport" class="btn-support">
-                        <i class="fas fa-headset"></i> Contact Support
-                    </button>
-                    <button @click="shareOrder" class="btn-share">
-                        <i class="fas fa-share"></i> Share Order
-                    </button>
+                    <button @click="reorder" class="btn-reorder"><i class="fas fa-redo"></i> Reorder</button>
+                    <button @click="contactSupport" class="btn-support"><i class="fas fa-headset"></i> Contact Support</button>
+                    <button @click="shareOrder" class="btn-share"><i class="fas fa-share"></i> Share Order</button>
                 </div>
             </div>
 
@@ -166,271 +164,177 @@
             <div v-if="recentOrders.length > 0" class="recent-orders">
                 <h3>Recent Orders</h3>
                 <div class="orders-grid">
-                    <div 
-                        v-for="order in recentOrders" 
-                        :key="order.orderNumber"
-                        class="order-card"
-                        @click="selectOrder(order.orderNumber)"
-                    >
+                    <div v-for="order in recentOrders" :key="order.orderNumber" class="order-card" @click="selectOrder(order.orderNumber)">
                         <div class="order-card-header">
                             <span class="order-number">#{{ order.orderNumber }}</span>
                             <span :class="['status', order.status.toLowerCase()]">{{ order.status }}</span>
                         </div>
                         <div class="order-card-body">
-                            <p>{{ order.items.length }} items • ৳{{ order.totalAmount.toFixed(2) }}</p>
+                            <p>{{ order.items.length }} items • ৳{{ Number(order.totalAmount).toFixed(2) }}</p>
                             <p class="order-date">{{ formatDate(order.orderDate) }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Loading State -->
-            <div v-if="isLoading" class="loading-state">
-                <div class="spinner"></div>
-                <p>Tracking your order...</p>
-            </div>
         </div>
     </Layout>
 </template>
 
-<script>
+<script setup>
 import Layout from '@/layout/Layout.vue';
+import { computed, onMounted, ref } from 'vue';
 
-export default {
-    name: "Tracking",
-    components: {
-        Layout
-    },
-    data() {
-        return {
-            orderNumber: '',
-            currentOrder: null,
-            searchError: '',
-            isLoading: false,
-            recentOrders: [],
-            mockOrders: [
-                {
-                    orderNumber: 'QB2024001',
-                    orderDate: new Date('2024-01-15T14:30:00'),
-                    estimatedDelivery: new Date('2024-01-15T15:45:00'),
-                    status: 'Out for Delivery',
-                    totalAmount: 45.99,
-                    customerName: 'John Doe',
-                    customerPhone: '+1 (555) 123-4567',
-                    deliveryAddress: '123 Main St, Apt 4B, New York, NY 10001',
-                    deliveryMethod: 'Home Delivery',
-                    driver: {
-                        name: 'Mike Johnson',
-                        phone: '+1 (555) 987-6543',
-                        vehicle: 'Honda Civic - ABC123',
-                        rating: 4.8,
-                        avatar: '/driver-mike.jpg'
-                    },
-                    items: [
-                        {
-                            id: 1,
-                            name: 'Margherita Pizza',
-                            description: 'Fresh mozzarella, tomato sauce, basil',
-                            price: 18.99,
-                            quantity: 1,
-                            image: '/pizza-margherita.jpg'
-                        },
-                        {
-                            id: 2,
-                            name: 'Caesar Salad',
-                            description: 'Romaine lettuce, parmesan, croutons',
-                            price: 12.00,
-                            quantity: 1,
-                            image: '/caesar-salad.jpg'
-                        },
-                        {
-                            id: 3,
-                            name: 'Garlic Bread',
-                            description: 'Freshly baked with garlic butter',
-                            price: 8.00,
-                            quantity: 2,
-                            image: '/garlic-bread.jpg'
-                        }
-                    ],
-                    progress: [
-                        { step: 'order-placed', timestamp: new Date('2024-01-15T14:30:00') },
-                        { step: 'confirmed', timestamp: new Date('2024-01-15T14:35:00') },
-                        { step: 'preparing', timestamp: new Date('2024-01-15T14:45:00') },
-                        { step: 'out-for-delivery', timestamp: new Date('2024-01-15T15:15:00') }
-                    ]
-                },
-                {
-                    orderNumber: 'QB2024002',
-                    orderDate: new Date('2024-01-14T19:00:00'),
-                    estimatedDelivery: new Date('2024-01-14T19:30:00'),
-                    status: 'Delivered',
-                    totalAmount: 32.50,
-                    customerName: 'Jane Smith',
-                    customerPhone: '+1 (555) 987-1234',
-                    deliveryAddress: '456 Oak Ave, Brooklyn, NY 11201',
-                    deliveryMethod: 'Home Delivery',
-                    driver: null,
-                    items: [
-                        {
-                            id: 4,
-                            name: 'Chicken Burger',
-                            description: 'Grilled chicken, lettuce, tomato, mayo',
-                            price: 15.50,
-                            quantity: 1,
-                            image: '/chicken-burger.jpg'
-                        },
-                        {
-                            id: 5,
-                            name: 'French Fries',
-                            description: 'Crispy golden fries',
-                            price: 5.00,
-                            quantity: 2,
-                            image: '/french-fries.jpg'
-                        }
-                    ],
-                    progress: [
-                        { step: 'order-placed', timestamp: new Date('2024-01-14T19:00:00') },
-                        { step: 'confirmed', timestamp: new Date('2024-01-14T19:05:00') },
-                        { step: 'preparing', timestamp: new Date('2024-01-14T19:10:00') },
-                        { step: 'out-for-delivery', timestamp: new Date('2024-01-14T19:25:00') },
-                        { step: 'delivered', timestamp: new Date('2024-01-14T19:30:00') }
-                    ]
-                }
-            ]
-        }
-    },
-    computed: {
-        progressSteps() {
-            return [
-                {
-                    key: 'order-placed',
-                    title: 'Order Placed',
-                    description: 'We have received your order',
-                    icon: 'fas fa-clipboard-check',
-                    timestamp: this.getProgressTimestamp('order-placed')
-                },
-                {
-                    key: 'confirmed',
-                    title: 'Order Confirmed',
-                    description: 'Restaurant has accepted your order',
-                    icon: 'fas fa-check-circle',
-                    timestamp: this.getProgressTimestamp('confirmed')
-                },
-                {
-                    key: 'preparing',
-                    title: 'Preparing',
-                    description: 'Your food is being prepared',
-                    icon: 'fas fa-utensils',
-                    timestamp: this.getProgressTimestamp('preparing')
-                },
-                {
-                    key: 'out-for-delivery',
-                    title: 'Out for Delivery',
-                    description: 'Your order is on its way',
-                    icon: 'fas fa-motorcycle',
-                    timestamp: this.getProgressTimestamp('out-for-delivery')
-                },
-                {
-                    key: 'delivered',
-                    title: 'Delivered',
-                    description: 'Order delivered successfully',
-                    icon: 'fas fa-home',
-                    timestamp: this.getProgressTimestamp('delivered')
-                }
-            ];
-        }
-    },
-    mounted() {
-        // Load recent orders
-        this.recentOrders = this.mockOrders.slice(0, 2);
-        
-        // Check if order number is provided in URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const orderNum = urlParams.get('order');
-        if (orderNum) {
-            this.orderNumber = orderNum;
-            this.trackOrder();
-        }
-    },
-    methods: {
-        trackOrder() {
-            if (!this.orderNumber.trim()) {
-                this.searchError = 'Please enter an order number';
-                return;
-            }
+// Reactive data
+const orderNumber = ref('');
+const currentOrder = ref(null);
+const isLoading = ref(false);
+const recentOrders = ref([]);
 
-            this.isLoading = true;
-            this.searchError = '';
+// Helper functions
+const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+};
 
-            // Simulate API call
-            setTimeout(() => {
-                const order = this.mockOrders.find(o => o.orderNumber === this.orderNumber.trim());
-                if (order) {
-                    this.currentOrder = order;
-                    this.searchError = '';
-                } else {
-                    this.searchError = 'Order not found. Please check your order number.';
-                    this.currentOrder = null;
-                }
-                this.isLoading = false;
-            }, 1000);
+const formatTime = (date) => {
+    return new Date(date).toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+};
+
+const getProgressTimestamp = (step) => {
+    if (!currentOrder.value || !currentOrder.value.progress) return null;
+    const progress = currentOrder.value.progress.find((p) => p.step === step);
+    return progress ? progress.timestamp : null;
+};
+
+const isStepActive = (step) => {
+    const timestamp = getProgressTimestamp(step.key);
+    return timestamp !== null;
+};
+
+const isStepCompleted = (step) => {
+    const currentStepIndex = progressSteps.value.findIndex((s) => s.key === step.key);
+    const lastCompletedIndex = currentOrder.value?.progress?.length - 1 || 0;
+    return currentStepIndex <= lastCompletedIndex;
+};
+
+// Computed
+const progressSteps = computed(() => {
+    return [
+        {
+            key: 'order-placed',
+            title: 'Order Placed',
+            description: 'We have received your order',
+            icon: 'fas fa-clipboard-check',
+            timestamp: getProgressTimestamp('order-placed'),
         },
-        selectOrder(orderNumber) {
-            this.orderNumber = orderNumber;
-            this.trackOrder();
+        {
+            key: 'confirmed',
+            title: 'Order Confirmed',
+            description: 'Restaurant has accepted your order',
+            icon: 'fas fa-check-circle',
+            timestamp: getProgressTimestamp('confirmed'),
         },
-        formatDate(date) {
-            return new Date(date).toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
+        {
+            key: 'preparing',
+            title: 'Preparing',
+            description: 'Your food is being prepared',
+            icon: 'fas fa-utensils',
+            timestamp: getProgressTimestamp('preparing'),
+        },
+        {
+            key: 'out-for-delivery',
+            title: 'Out for Delivery',
+            description: 'Your order is on its way',
+            icon: 'fas fa-motorcycle',
+            timestamp: getProgressTimestamp('out-for-delivery'),
+        },
+        {
+            key: 'delivered',
+            title: 'Delivered',
+            description: 'Order delivered successfully',
+            icon: 'fas fa-home',
+            timestamp: getProgressTimestamp('delivered'),
+        },
+    ];
+});
+
+// Methods
+const trackOrder = async () => {
+    if (!orderNumber.value.trim()) {
+        return;
+    }
+
+    isLoading.value = true;
+
+    try {
+        // Fetch order data from the backend API that uses the Order model
+        const response = await fetch('/api/tracking?order_number=' + encodeURIComponent(orderNumber.value.trim()));
+
+        if (response.ok) {
+            const order = await response.json();
+            console.log('Order fetched:', order);
+            currentOrder.value = order;
+        } else {
+            console.error('Failed to fetch order:', response.status);
+            currentOrder.value = null;
+        }
+    } catch (error) {
+        console.error('Error fetching order:', error);
+        currentOrder.value = null;
+    }
+
+    isLoading.value = false;
+};
+
+const selectOrder = (orderNum) => {
+    orderNumber.value = orderNum;
+    trackOrder();
+};
+
+const reorder = () => {
+    alert('Reordering functionality would be implemented here');
+};
+
+const contactSupport = () => {
+    alert('Contact support functionality would be implemented here');
+};
+
+const shareOrder = () => {
+    if (currentOrder.value) {
+        const shareText = `Check out my order #${currentOrder.value.orderNumber} from QuickBite!`;
+        if (navigator.share) {
+            navigator.share({
+                title: 'QuickBite Order',
+                text: shareText,
+                url: window.location.href + '?order=' + currentOrder.value.orderNumber,
             });
-        },
-        formatTime(date) {
-            return new Date(date).toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        },
-        getProgressTimestamp(step) {
-            if (!this.currentOrder || !this.currentOrder.progress) return null;
-            const progress = this.currentOrder.progress.find(p => p.step === step);
-            return progress ? progress.timestamp : null;
-        },
-        isStepActive(step) {
-            const timestamp = this.getProgressTimestamp(step.key);
-            return timestamp !== null;
-        },
-        isStepCompleted(step) {
-            const currentStepIndex = this.progressSteps.findIndex(s => s.key === step.key);
-            const lastCompletedIndex = this.currentOrder?.progress?.length - 1 || 0;
-            return currentStepIndex <= lastCompletedIndex;
-        },
-        reorder() {
-            alert('Reordering functionality would be implemented here');
-        },
-        contactSupport() {
-            alert('Contact support functionality would be implemented here');
-        },
-        shareOrder() {
-            if (this.currentOrder) {
-                const shareText = `Check out my order #${this.currentOrder.orderNumber} from QuickBite!`;
-                if (navigator.share) {
-                    navigator.share({
-                        title: 'QuickBite Order',
-                        text: shareText,
-                        url: window.location.href + '?order=' + this.currentOrder.orderNumber
-                    });
-                } else {
-                    alert(shareText);
-                }
-            }
+        } else {
+            alert(shareText);
         }
     }
-}
+};
+
+// Lifecycle
+onMounted(() => {
+    // Removed loading mock orders as per user request
+
+    // Check if order number is provided in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderNum = urlParams.get('order');
+    if (orderNum) {
+        orderNumber.value = orderNum;
+        trackOrder();
+    }
+});
 </script>
 
 <style scoped>
@@ -465,7 +369,7 @@ export default {
     background: white;
     border-radius: 15px;
     padding: 30px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
@@ -519,7 +423,7 @@ export default {
     background: white;
     border-radius: 15px;
     padding: 30px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
 }
 
@@ -584,41 +488,56 @@ export default {
     font-size: 14px;
 }
 
-.progress-tracker {
+.order-process {
     margin-bottom: 30px;
 }
 
-.progress-steps {
+.process-timeline {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 20px;
     margin-top: 20px;
-}
-
-.step {
-    flex: 1;
-    text-align: center;
     position: relative;
 }
 
-.step:not(:last-child)::after {
+.process-timeline::before {
     content: '';
     position: absolute;
-    top: 25px;
-    left: 50%;
-    width: 100%;
-    height: 2px;
+    left: 25px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
     background: #e0e0e0;
     z-index: 1;
 }
 
-.step.active .step-icon,
-.step.completed .step-icon {
-    background: #ff5722;
-    color: white;
+.timeline-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    position: relative;
 }
 
-.step.completed:not(:last-child)::after {
+.timeline-step.completed::before {
+    content: '';
+    position: absolute;
+    left: 21px;
+    top: 50px;
+    bottom: -20px;
+    width: 2px;
     background: #ff5722;
+    z-index: 2;
+}
+
+.timeline-step:last-child::before {
+    display: none;
+}
+
+.timeline-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
 }
 
 .step-icon {
@@ -629,19 +548,75 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 10px;
     position: relative;
-    z-index: 2;
+    z-index: 3;
+    flex-shrink: 0;
 }
 
-.step-content h4 {
+.timeline-step.active .step-icon,
+.timeline-step.completed .step-icon {
+    background: #ff5722;
+    color: white;
+}
+
+.step-details {
+    flex: 1;
+}
+
+.step-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.step-details p {
     margin: 0 0 5px 0;
     font-size: 14px;
+    color: #7f8c8d;
 }
 
-.step-content p {
-    margin: 0;
+.step-time {
     font-size: 12px;
+    color: #ff5722;
+    font-weight: 500;
+}
+
+.step-order-details {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #ff5722;
+}
+
+.step-order-details h5 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.mini-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mini-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mini-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.mini-item span {
+    font-size: 14px;
     color: #7f8c8d;
 }
 
@@ -738,7 +713,9 @@ export default {
     margin-top: 30px;
 }
 
-.btn-reorder, .btn-support, .btn-share {
+.btn-reorder,
+.btn-support,
+.btn-share {
     padding: 12px 24px;
     border: none;
     border-radius: 25px;
@@ -783,7 +760,7 @@ export default {
 }
 
 .order-card:hover {
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
 }
 
@@ -821,41 +798,45 @@ export default {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 768px) {
     .tracking-container {
         padding: 10px;
     }
-    
+
     .search-form {
         flex-direction: column;
     }
-    
+
     .order-input {
         width: 100%;
     }
-    
+
     .order-header {
         flex-direction: column;
         align-items: flex-start;
     }
-    
+
     .progress-steps {
         flex-direction: column;
         gap: 20px;
     }
-    
+
     .step:not(:last-child)::after {
         display: none;
     }
-    
+
     .info-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .action-buttons {
         flex-direction: column;
     }

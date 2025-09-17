@@ -43,6 +43,8 @@ Route::get('tracking', function () {
     return Inertia::render('Tracking');
 })->name('tracking');
 
+Route::get('api/tracking', [App\Http\Controllers\TrackingController::class, 'trackOrder'])->name('api.tracking');
+
 Route::get('checkout', function () {
     return Inertia::render('Checkout');
 })->name('checkout');
