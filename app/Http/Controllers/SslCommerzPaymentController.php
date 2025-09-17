@@ -67,7 +67,8 @@ class SslCommerzPaymentController extends Controller
                 'amount' => $post_data['total_amount'],
                 'status' => 'Pending',
                 'address' => $post_data['cus_add1'],
-                'currency' => $post_data['currency']
+                'currency' => $post_data['currency'],
+                'payment_method' => $request->input('payment_method', 'online')
             ]
         );
 
@@ -207,6 +208,34 @@ class SslCommerzPaymentController extends Controller
         } else {
             echo "Invalid Data";
         }
+    }
+
+    public function createCashOrder(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string',
+            'amount' => 'required|numeric|min:0',
+        ]);
+
+        $order = Order::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+            'address' => $request->input('address'),
+            'amount' => $request->input('amount'),
+            'status' => 'Pending',
+            'transaction_id' => uniqid('cash_'),
+            'currency' => 'BDT',
+            'payment_method' => 'cash',
+        ]);
+
+        return response()->json([
+            'message' => 'Order created successfully',
+            'order' => $order,
+        ], 201);
     }
 
 }

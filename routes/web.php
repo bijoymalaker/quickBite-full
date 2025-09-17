@@ -138,6 +138,9 @@ Route::match(['get', 'post'], '/fail', [SslCommerzPaymentController::class, 'fai
 Route::match(['get', 'post'], '/cancel', [SslCommerzPaymentController::class, 'cancel']);
 
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
+
+Route::post('/orders/cash', [SslCommerzPaymentController::class, 'createCashOrder']);
+
 //SSLCOMMERZ END
 
 require __DIR__.'/settings.php';

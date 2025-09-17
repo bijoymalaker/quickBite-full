@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('status', 10)->nullable();
             $table->string('transaction_id', 255)->nullable();
             $table->string('currency', 20)->nullable();
+            $table->string('payment_method', 50)->nullable();
             $table->timestamps();
         });
     }

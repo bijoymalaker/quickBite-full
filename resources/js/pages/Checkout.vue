@@ -115,55 +115,80 @@ const total = computed(() => {
   return cart.cartTotal - discount.value + deliveryFee.value;
 });
 
-const placeOrder = () => {
-  isSubmitting.value = true;
+  const placeOrder = () => {
+    isSubmitting.value = true;
 
-  if (billing.paymentMethod === 'card') {
-    // Create a form and submit to /pay like exampleHosted.blade.php
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = '/pay';
+    if (billing.paymentMethod === 'card') {
+      // Create a form and submit to /pay like exampleHosted.blade.php
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/pay';
 
-    // Add CSRF token
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-    const csrfInput = document.createElement('input');
-    csrfInput.type = 'hidden';
-    csrfInput.name = '_token';
-    csrfInput.value = csrfToken;
-    form.appendChild(csrfInput);
+      // Add CSRF token
+      const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+      const csrfInput = document.createElement('input');
+      csrfInput.type = 'hidden';
+      csrfInput.name = '_token';
+      csrfInput.value = csrfToken;
+      form.appendChild(csrfInput);
 
-    // Add form data as hidden inputs
-    const formData = {
-      customer_name: billing.name,
-      customer_email: billing.email,
-      customer_mobile: billing.phone,
-      address: billing.address,
-      amount: total.value
-    };
+      // Add form data as hidden inputs
+      const formData = {
+        customer_name: billing.name,
+        customer_email: billing.email,
+        customer_mobile: billing.phone,
+        address: billing.address,
+        amount: total.value
+      };
 
-    Object.keys(formData).forEach(key => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      input.value = formData[key] || '';
-      form.appendChild(input);
-    });
+      Object.keys(formData).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = formData[key] || '';
+        form.appendChild(input);
+      });
 
-    document.body.appendChild(form);
-    form.submit();
-  } else if (billing.paymentMethod === 'cash') {
-    // Handle cash on delivery
-    setTimeout(() => {
-      alert('Order placed successfully! Pay on delivery.');
-      cart.clearCart();
-      router.visit('/tracking');
+      document.body.appendChild(form);
+      form.submit();
+    } else if (billing.paymentMethod === 'cash') {
+      // Handle cash on delivery by calling backend API
+      fetch('/orders/cash', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+        },
+        body: JSON.stringify({
+          name: billing.name,
+          email: billing.email,
+          phone: billing.phone,
+          address: billing.address,
+          amount: total.value
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to place order');
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert('Order placed successfully! Pay on delivery.');
+        cart.clearCart();
+        router.visit('/tracking');
+      })
+      .catch(error => {
+        alert('Error placing order: ' + error.message);
+      })
+      .finally(() => {
+        isSubmitting.value = false;
+      });
+    } else {
+      alert('Please select a payment method.');
       isSubmitting.value = false;
-    }, 2000);
-  } else {
-    alert('Please select a payment method.');
-    isSubmitting.value = false;
-  }
-};
+    }
+  };
 
 </script>
 
