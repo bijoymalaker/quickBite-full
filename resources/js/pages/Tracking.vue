@@ -1,16 +1,12 @@
 <template>
     <title>Order Tracking - QuickBite</title>
     <Layout>
-        <div class="tracking-container">
+        <div class="container">
             <!-- Hero Section -->
             <div class="tracking-hero">
                 <h1 class="tracking-title">Track Your Order</h1>
                 <p class="tracking-subtitle">Enter your order number to track your delivery in real-time</p>
             </div>
-
-            <!-- Order Search Section -->
-            <!-- Removed search section as per user request -->
-            <!-- No search UI on tracking page -->
 
             <!-- Order Details Section -->
             <div v-if="currentOrder" class="order-details">
@@ -63,7 +59,11 @@
                                 <h5>Preparing Your Order</h5>
                                 <div class="mini-items">
                                     <div v-for="item in currentOrder.items.slice(0, 2)" :key="item.id" class="mini-item">
-                                        <img :src="item.image || '/placeholder-food.jpg'" :alt="item.name" class="mini-image" />
+                                        <img
+                                            :src="item.image ? '/storage/' + item.image : '/placeholder-food.jpg'"
+                                            :alt="item.name"
+                                            class="mini-image"
+                                        />
                                         <span>{{ item.name }} x{{ item.quantity }}</span>
                                     </div>
                                     <p v-if="currentOrder.items.length > 2">+{{ currentOrder.items.length - 2 }} more items</p>
@@ -85,7 +85,7 @@
                     <h3>Order Items</h3>
                     <div class="items-list">
                         <div v-for="item in currentOrder.items" :key="item.id" class="item-card">
-                            <img :src="item.image || '/placeholder-food.jpg'" :alt="item.name" class="item-image" />
+                            <img :src="item.image ? '/storage/' + item.image : '/placeholder-food.jpg'" :alt="item.name" class="item-image" />
                             <div class="item-details">
                                 <h4>{{ item.name }}</h4>
                                 <p>{{ item.description }}</p>
@@ -325,7 +325,6 @@ const shareOrder = () => {
 
 // Lifecycle
 onMounted(() => {
-    // Removed loading mock orders as per user request
 
     // Check if order number is provided in URL
     const urlParams = new URLSearchParams(window.location.search);
