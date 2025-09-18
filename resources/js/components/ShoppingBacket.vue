@@ -69,44 +69,29 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from 'vue';
 import { useCartStore } from '@/store/cartStore';
 import { router } from '@inertiajs/vue3';
 
-export default {
-  name: "ShoppingBacket",
-  setup() {
-    const cartStore = useCartStore();
-    return { cartStore };
-  },
-  data() {
-    return {
-      showAlert: false,
-      discount: 3.00,
-      deliveryFee: 2.50,
-      minimumDelivery: 20,
-      deliveryTime: "18:00",
-    };
-  },
-  computed: {
-    cart() {
-      return this.cartStore.items;
-    },
-    subTotal() {
-      return this.cartStore.cartTotal;
-    },
-    total() {
-      return this.subTotal - this.discount + this.deliveryFee;
-    }
-  },
-  methods: {
-    removeItem(itemId) {
-      this.cartStore.removeItem(itemId);
-    },
-    goToCheckout() {
-      router.visit('/checkout');
-    }
-  }
+const cartStore = useCartStore();
+
+const showAlert = ref(false);
+const discount = ref(3.00);
+const deliveryFee = ref(2.50);
+const minimumDelivery = ref(20);
+const deliveryTime = ref("18:00");
+
+const cart = computed(() => cartStore.items);
+const subTotal = computed(() => cartStore.cartTotal);
+const total = computed(() => subTotal.value - discount.value + deliveryFee.value);
+
+const removeItem = (itemId) => {
+  cartStore.removeItem(itemId);
+};
+
+const goToCheckout = () => {
+  router.visit('/checkout');
 };
 </script>
 

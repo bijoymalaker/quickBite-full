@@ -41,32 +41,28 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "ResDetails",
-  data() {
-    return {
-      deliveryTimes: {
-        Monday: "12:00 AM–3:00 AM, 8:00 AM–3:00 AM",
-        Tuesday: "8:00 AM–3:00 AM",
-        Wednesday: "8:00 AM–3:00 AM",
-        Thursday: "8:00 AM–3:00 AM",
-        Friday: "8:00 AM–3:00 AM",
-        Saturday: "8:00 AM–3:00 AM",
-        Sunday: "8:00 AM–12:00 AM",
-      },
-      operationalTimes: {
-        Monday: "8:00 AM–3:00 AM",
-        Tuesday: "8:00 AM–3:00 AM",
-        Wednesday: "8:00 AM–3:00 AM",
-        Thursday: "8:00 AM–3:00 AM",
-        Friday: "8:00 AM–3:00 AM",
-        Saturday: "8:00 AM–3:00 AM",
-        Sunday: "8:00 AM–3:00 AM",
-      },
-    };
-  },
+<script setup>
+
+const deliveryTimes = {
+  Monday: "12:00 AM–3:00 AM, 8:00 AM–3:00 AM",
+  Tuesday: "8:00 AM–3:00 AM",
+  Wednesday: "8:00 AM–3:00 AM",
+  Thursday: "8:00 AM–3:00 AM",
+  Friday: "8:00 AM–3:00 AM",
+  Saturday: "8:00 AM–3:00 AM",
+  Sunday: "8:00 AM–12:00 AM",
 };
+
+const operationalTimes = {
+  Monday: "8:00 AM–3:00 AM",
+  Tuesday: "8:00 AM–3:00 AM",
+  Wednesday: "8:00 AM–3:00 AM",
+  Thursday: "8:00 AM–3:00 AM",
+  Friday: "8:00 AM–3:00 AM",
+  Saturday: "8:00 AM–3:00 AM",
+  Sunday: "8:00 AM–3:00 AM",
+};
+
 </script>
 
 <style scoped>

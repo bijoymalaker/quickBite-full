@@ -4,10 +4,9 @@
             <div class="container my-5">
                 <!-- Header Section -->
                 <h2 class="category-header mb-4">Popular Restaurants</h2>
-
                 <Carousel :items-to-show="5" :pagination="true" :navigation="true"
-                    :breakpoints="{0: {itemsToShow:1}, 640: { itemsToShow: 2 }, 768: { itemsToShow: 3 }, 1024: { itemsToShow: 5 } }">
-                <slide v-for="restaurant in restaurants" :key="restaurant.id">
+                    :breakpoints="{ 0: { itemsToShow: 1 }, 640: { itemsToShow: 2 }, 768: { itemsToShow: 3 }, 1024: { itemsToShow: 5 } }">
+                    <slide v-for="restaurant in restaurants" :key="restaurant.id">
                         <div class="card category-card g-3">
                             <img :src="restaurant.image ? '/storage/' + restaurant.image : 'https://via.placeholder.com/400x300'"
                                 :alt="restaurant.name">
@@ -15,12 +14,8 @@
                                 <p class="category-name text-white">{{ restaurant.name }}</p>
                             </div>
                         </div>
-                    
-                </slide>
-                    
+                    </slide>
                 </Carousel>
-
-
             </div>
         </section>
 
@@ -28,8 +23,7 @@
 </template>
 <script setup>
 import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-
+import { Carousel, Slide } from "vue3-carousel";
 
 defineProps({
     restaurants: {
@@ -39,17 +33,17 @@ defineProps({
 })
 
 </script>
+
 <style scoped>
-.card{
+.card {
     width: 250px;
     height: auto;
 }
+
 .category-card img {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  border-radius: 10px 10px 0 0;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
 }
-
-
 </style>

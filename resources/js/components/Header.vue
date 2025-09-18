@@ -4,9 +4,7 @@
         <div class="container">
             <!-- Logo and Brand Name -->
             <Link class="navbar-brand" href="/">
-            <img src="../assets/imgs/quickbiteLogo_noBG.png" alt="Logo" class="h-50" />
-            QuickBite
-            </Link>
+            <img src="../assets/imgs/quickbiteLogo_noBG.png" alt="Logo" class="h-50" />QuickBite</Link>
 
             <!-- Toggle Button for Mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -36,17 +34,7 @@
                         <Link :href="route('tracking')" class="nav-link"
                             :class="{ active: route().current('tracking') }">Track your Order</Link>
                     </li>
-                    <!-- <li class="nav-item" v-if="user">
-              <Link :href="route('checkout')" class="nav-link position-relative" :class="{ active: route().current('checkout') }">
-                <font-awesome-icon icon="fa-solid fa-basket-shopping" class="me-1" />
-                <span v-if="cart.itemCount > 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  {{ cart.itemCount }}
-                </span>
-              </Link>
-            </li> -->
                 </ul>
-
-                <!-- Login/Signup Button -->
 
                 <!-- Login/Signup or Dashboard/Logout Buttons -->
                 <div v-if="user" class="d-flex align-items-center ms-lg-3">
@@ -88,6 +76,8 @@ import { route } from 'ziggy-js';
 const user = computed(() => (usePage().props.auth && usePage().props.auth.user ? usePage().props.auth.user : null));
 // const cart = useCartStore();
 </script>
+
+
 <style scoped>
 .nav-item .nav-link.active {
     background-color: #ff7e00;
