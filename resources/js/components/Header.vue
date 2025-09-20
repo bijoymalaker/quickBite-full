@@ -38,19 +38,35 @@
 
                 <!-- Login/Signup or Dashboard/Logout Buttons -->
                 <div v-if="user" class="d-flex align-items-center ms-lg-3">
-                    <Link v-if="user.role === 'restaurant'" :href="route('restaurant.dashboard')"
-                        class="login-signup-btn me-2">Restaurant Dashboard</Link>
+                        <li class="nav-item dropdown" v-if="user.role === 'restaurant'">
+                        <Link :href="route('dashboard')" class="nav-link dropdown-toggle login-signup-btn" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ user.name }}</Link>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <Link :href="route('restaurant.dashboard')" class="dropdown-item me-2">Dashboard</Link>
+                            </li>
+                            <li>
+                                <Link :href="route('logout')" method="post" as="button" class="dropdown-item">Logout
+                                </Link>
+                            </li>
+                        </ul>
+                    </li>
+                        
+                        
                     <!-- <Link v-else :href="route('products.index')" class="login-signup-btn me-2">Products</Link> -->
+
+                    
                     <li class="nav-item dropdown" v-else-if="user.role === 'customer'">
                         <Link :href="route('dashboard')" class="nav-link dropdown-toggle" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                         {{ user.name }}</Link>
                         <ul class="dropdown-menu">
                             <li>
-                                <Link :href="route('dashboard')" class="login-signup-btn me-2">Dashboard</Link>
+                                <Link :href="route('dashboard')" class="dropdown-item me-2">Dashboard</Link>
                             </li>
                             <li>
-                                <Link :href="route('logout')" method="post" as="button" class="login-signup-btn">Logout
+                                <Link :href="route('logout')" method="post" as="button" class="dropdown-item">Logout
                                 </Link>
                             </li>
                         </ul>
