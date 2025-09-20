@@ -35,6 +35,12 @@ Route::get('restaurants/create', function () {
     return Inertia::render('Restaurants/Create');
 })->name('restaurants.create');
 
+Route::get('restaurants/{restaurant}/edit', function (App\Models\Restaurant $restaurant) {
+    return Inertia::render('Restaurants/Edit', [
+        'restaurant' => $restaurant
+    ]);
+})->middleware(['auth'])->name('restaurants.edit');
+
 Route::get('restaurants/{id}/foods', function ($id) {
     return Inertia::render('Restaurants/RestaurantFoods', ['id' => $id]);
 })->name('restaurants.foods');
@@ -109,12 +115,15 @@ Route::get('restaurant/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('restaurant.dashboard');
 
 // Restaurant management routes
-Route::get('api/restaurants', [RestaurantController::class, 'index'])->name('api.restaurants.index');
-Route::post('api/restaurants', [RestaurantController::class, 'store'])->name('api.restaurants.store');
-Route::get('api/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('api.restaurants.show');
-Route::get('api/restaurants/{id}/foods', [ProductController::class, 'restaurantFoods'])->name('api.restaurants.foods');
+Route::middleware(['auth'])->group(function () {
+    Route::get('api/restaurants', [RestaurantController::class, 'index'])->name('api.restaurants.index');
+    Route::post('api/restaurants', [RestaurantController::class, 'store'])->name('api.restaurants.store');
+    Route::get('api/restaurants/{restaurant}', [RestaurantController::class, 'show'])->name('api.restaurants.show');
+    Route::get('api/restaurants/{id}/foods', [ProductController::class, 'restaurantFoods'])->name('api.restaurants.foods');
 Route::put('api/restaurants/{restaurant}', [RestaurantController::class, 'update'])->name('api.restaurants.update');
-Route::delete('api/restaurants/{restaurant}', [RestaurantController::class, 'destroy'])->name('api.restaurants.destroy');
+Route::put('api/restaurants/{id}', [RestaurantController::class, 'updateById'])->name('api.restaurants.update-by-id');
+    Route::delete('api/restaurants/{restaurant}', [RestaurantController::class, 'destroy'])->name('api.restaurants.destroy');
+});
 
 
 // Product management routes
