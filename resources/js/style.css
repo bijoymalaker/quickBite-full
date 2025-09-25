@@ -167,15 +167,16 @@ body {
   gap: 15px;
 }
 .responsive-image {
-  width: 50%;
-  border-radius: 15px;
-  top: 70px;
+    width: 44%;
+    border-radius: 15px;
+    top: 4%;
+    left: 53%;
 }
-.banner-first-img{
-  width: 80%;
-  top: 23%;
-  left: -46%;
-  z-index: 1;
+.banner-first-img {
+    width: 90%;
+    top: 5%;
+    left: -50%;
+    z-index: 1;
 }
 
 

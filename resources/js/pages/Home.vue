@@ -18,44 +18,39 @@ import { ref, onMounted } from 'vue';
 const foodName = ref(['Vegan', 'Sushi', 'Pizza & Fast food', 'Others']);
 
 const resName = ref([
-  {
-    name: 'Chef Burgers London',
-    discount: '-40%',
-    img: Rectangle7,
-  },
-  {
-    name: 'Grand Ai Cafe London',
-    discount: '-20%',
-    img: Rectangle9,
-  },
-  {
-    name: 'Butterbrot Cafe London',
-    discount: '-17%',
-    img: Rectangle8,
-  },
+    {
+        name: 'Chef Burgers London',
+        discount: '-40%',
+        img: Rectangle7,
+    },
+    {
+        name: 'Grand Ai Cafe London',
+        discount: '-20%',
+        img: Rectangle9,
+    },
+    {
+        name: 'Butterbrot Cafe London',
+        discount: '-17%',
+        img: Rectangle8,
+    },
 ]);
 
 // Props
 defineProps({
-  restaurants: {
-    type: Array,
-    required: true
-  }
+    restaurants: {
+        type: Array,
+        required: true
+    }
 });
 
 // Lifecycle
 onMounted(() => {
-  document.title = 'Home - Pretty Picks';
+    document.title = 'Home - Pretty Picks';
 });
-
-
-
 
 </script>
 
-
 <template>
-    
     <Layout>
         <div>
             <!-- Top banner part start  -->
@@ -77,12 +72,14 @@ onMounted(() => {
                         </div>
 
                         <!-- Image and Notifications Section -->
-                        <div class="col-lg-6 position-relative">
-                            <img src="../assets/imgs/banner-img-1.png" alt="Eating Pizza" class="position-absolute banner-first-img" />
+                        <div class="col-lg-6 position-relative d-none d-md-block">
+                            <img src="../assets/imgs/banner-img-1.png" alt="Eating Pizza"
+                                class="position-absolute banner-first-img" />
 
                             <!-- Notification Box -->
-                            <div class="notification-box orange-bg">
-                                <img src="../assets/imgs/banner-img.jpg" alt="Eating Pizza" class="responsive-image position-absolute mb-4" />
+                            <div class="notification-box orange-bg d-none d-md-block">
+                                <img src="../assets/imgs/banner-img.jpg" alt="Eating Pizza"
+                                    class="responsive-image position-absolute mb-4" />
                                 <div class="notification" data-step="1">
                                     <strong>Order</strong><br />
                                     We've received your order. Awaiting Restaurant acceptance.
@@ -114,34 +111,30 @@ onMounted(() => {
                                 <a v-for="item in foodName" :key="item" href="#" class=""> {{ item }}</a>
                             </div>
                             <!-- Dropdown for mobile devices -->
-                        <div class="category-filter d-flex d-md-none">
-                            <select class="form-select">
-                                <option v-for="item in foodName" :key="item">{{ item }}</option>
-                            </select>
-                        </div>
-                        </div>
-
-                        
-                    </div>
-                
-
-                <!-- Deals Cards -->
-                <div class="row g-4">
-                    <!-- Card 1 -->
-                    <div class="col-md-4" v-for="item in resName" :key="item.name">
-                        <div class="card deal-card">
-                            <div class="position-relative">
-                                <img v-bind:src="item.img" class="card-img-top" :alt="item.name" />
-                                <span class="deals-card-overlay"></span>
-                                <span class="discount-badge">{{ item.discount }}</span>
-                            </div>
-                            <div class="card-body">
-                                <p class="mb-1 text-muted">Restaurant</p>
-                                <p class="restaurant-name">{{ item.name }}</p>
+                            <div class="category-filter d-flex d-md-none">
+                                <select class="form-select">
+                                    <option v-for="item in foodName" :key="item">{{ item }}</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <!-- Deals Cards -->
+                    <div class="row g-4">
+                        <!-- Card 1 -->
+                        <div class="col-md-4" v-for="item in resName" :key="item.name">
+                            <div class="card deal-card">
+                                <div class="position-relative">
+                                    <img v-bind:src="item.img" class="card-img-top" :alt="item.name" />
+                                    <span class="deals-card-overlay"></span>
+                                    <span class="discount-badge">{{ item.discount }}</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-1 text-muted">Restaurant</p>
+                                    <p class="restaurant-name">{{ item.name }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 

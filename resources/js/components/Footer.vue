@@ -4,8 +4,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3 mb-3 mb-md-0">
-                    <button class="btn-app-store me-5"><font-awesome-icon icon="fa-brands fa-app-store" /></button>
-                    <button class="btn-google-play"><font-awesome-icon icon="fa-brands fa-google-play" /></button>
+                    <img src="../assets/imgs/quickbiteLogo.webp" alt="" srcset="" class="img-fluid mb-2">
                 </div>
                 <div class="col-md-3 mb-3 mb-md-0">
                     <h5>Get Exclusive Deals in Your Inbox</h5>

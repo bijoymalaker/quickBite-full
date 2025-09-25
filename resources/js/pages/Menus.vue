@@ -1,5 +1,4 @@
 <template>
-
     <Layout>
         <div class="container my-5">
             <h2 class="fw-bold text-center text-primary">Browse Our Menu</h2>
