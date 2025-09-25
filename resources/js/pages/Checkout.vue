@@ -1,21 +1,35 @@
 <template>
   <Layout>
     <div class="container mt-4">
-      <div class="row">
+      <div v-if="cart.items==0" class="vh-50 d-flex flex-column justify-content-center align-items-center" style="min-height: 60vh;">
+        <div class="alert alert-info text-center" role="alert">
+          <p><font-awesome-icon icon="fa-solid fa-cart-plus" class="fs-1" /></p>
+          <p>Your cart is empty. Please add some items to proceed to checkout.</p>
+          <Link :href="route('menus')" class="btn btn-primary">
+            <font-awesome-icon icon="fa-solid fa-store" class="me-2" /> Browse Restaurants
+          </Link>
+        </div>
+      </div>
+      <div class="row" v-else>
         <!-- Order Summary -->
         <div class="col-md-5">
           <div class="card">
             <div class="card-header bg-primary text-white">
-              <h5 class="mb-0"><font-awesome-icon icon="fa-solid fa-receipt" class="me-2" /> Order Summary</h5>
+              <h5 class="mb-0"><font-awesome-icon icon="fa-solid fa-receipt" class="me-2" /> Order Summary - {{ restaurantName }}</h5>
             </div>
             <div class="card-body">
-              <h2>{{ restaurantName }}</h2>
               <div v-for="(item, index) in cart.items" :key="index" class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                  <strong>{{ item.quantity }}x</strong> {{ item.name }} <br />
+                <div class="flex-grow-1">
+                  {{ item.name }} <br />
                   <small class="text-muted">{{ item.description }}</small>
                 </div>
-                <div class="fw-bold">৳{{ (parseFloat(item.price) * item.quantity).toFixed(2) }}</div>
+                <div class="d-flex align-items-center me-3">
+                  <button @click="cart.updateQuantity(item.id, item.quantity - 1)" class="btn btn-sm btn-outline-secondary" :disabled="item.quantity <= 1">-</button>
+                  <span class="mx-2 fw-bold">{{ item.quantity }}</span>
+                  <button @click="cart.updateQuantity(item.id, item.quantity + 1)" class="btn btn-sm btn-outline-secondary">+</button>
+                </div>
+                <div class="fw-bold me-3">৳{{ (parseFloat(item.price) * item.quantity).toFixed(2) }}</div>
+                <button @click="cart.removeItem(item.id)" class="btn btn-sm btn-danger">Remove</button>
               </div>
 
               <hr />
@@ -97,7 +111,8 @@
 import { ref, reactive, computed, onMounted } from 'vue';
 import Layout from '@/layout/Layout.vue';
 import { useCartStore } from '@/store/cartStore';
-import { router } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
+import { route } from 'ziggy-js';
 import axios from 'axios';
 
 const cart = useCartStore();
@@ -216,5 +231,10 @@ const placeOrder = () => {
 
 .form-label {
   font-weight: 500;
+}
+@media (min-width: 1200px) {
+    .fs-1 {
+        font-size: 6.5rem !important;
+    }
 }
 </style>
