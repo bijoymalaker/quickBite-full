@@ -129,7 +129,11 @@ class ProductController extends Controller
             $query->where('category', $request->category);
         }
 
-        $products = $query->get();
+        // Pagination parameters
+        $perPage = $request->input('per_page', 9); // default 9 items per page
+        $page = $request->input('page', 1);
+
+        $products = $query->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json($products);
     }

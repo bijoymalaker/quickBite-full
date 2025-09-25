@@ -23,7 +23,7 @@
 
             <!-- Menu Items -->
             <div class="row">
-                <div class="col-md-4 mb-4" v-for="item in filteredMenu" :key="item.id">
+                <div class="col-md-4 mb-4" v-for="item in menu" :key="item.id">
                     <div class="card shadow-sm">
                         <img :src="item.image ? '/storage/' + item.image : 'https://via.placeholder.com/400x300'" class="card-img-top" :alt="item.name">
                         <div class="card-body">
@@ -38,12 +38,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12" v-if="filteredMenu.length === 0">
+                <div class="col-12" v-if="menu.length === 0">
                     <div class="text-center py-5">
                         <h4>No products found in this category</h4>
                         <p>Try selecting a different category</p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center mt-4" v-if="totalPages > 1">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                            <button class="page-link" @click="prevPage" :disabled="currentPage === 1">Previous</button>
+                        </li>
+                        <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
+                            <button class="page-link" @click="goToPage(page)">{{ page }}</button>
+                        </li>
+                        <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                            <button class="page-link" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </Layout>
@@ -51,7 +68,7 @@
 
 <script setup>
 import Layout from '@/layout/Layout.vue';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import axios from 'axios';
 import { useCartStore } from '@/store/cartStore';
 
@@ -61,26 +78,40 @@ const categories = ref(["All"]);
 const menu = ref([]);
 const cartStore = useCartStore();
 
-// Fetch products from API
+// Pagination state
+const currentPage = ref(1);
+const perPage = 9;
+const totalPages = ref(1);
+
+// Fetch products from API with pagination and category filter
 const fetchProducts = async () => {
     try {
-        const response = await axios.get('/api/menu-products');
-        menu.value = response.data;
-        
-        // Extract unique categories
-        const uniqueCategories = [...new Set(response.data.map(item => item.category))];
-        categories.value = ["All", ...uniqueCategories];
+        const params = {
+            page: currentPage.value,
+            per_page: perPage,
+        };
+        if (selectedCategory.value !== "All") {
+            params.category = selectedCategory.value;
+        }
+        const response = await axios.get('/api/menu-products', { params });
+        // The paginated response data structure includes data array and meta info
+        menu.value = response.data.data;
+        totalPages.value = response.data.last_page || 1;
+
+        // Extract unique categories only once on first load or when categories are empty
+        if (categories.value.length === 1) {
+            const uniqueCategories = ["All", ...new Set(response.data.data.map(item => item.category))];
+            categories.value = uniqueCategories;
+        }
     } catch (error) {
         console.error('Error fetching products:', error);
     }
 };
 
-// Computed property for filtered menu
-const filteredMenu = computed(() => {
-    if (selectedCategory.value === "All") {
-        return menu.value;
-    }
-    return menu.value.filter(item => item.category === selectedCategory.value);
+// Watch for category changes to reset page and fetch products
+watch(selectedCategory, () => {
+    currentPage.value = 1;
+    fetchProducts();
 });
 
 // Add to cart function
@@ -88,6 +119,28 @@ const addToCart = (item) => {
     if (!item.is_available) return;
     cartStore.addItem(item);
     alert(`${item.name} added to cart!`);
+};
+
+// Pagination controls
+const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages.value) {
+        currentPage.value = page;
+        fetchProducts();
+    }
+};
+
+const nextPage = () => {
+    if (currentPage.value < totalPages.value) {
+        currentPage.value++;
+        fetchProducts();
+    }
+};
+
+const prevPage = () => {
+    if (currentPage.value > 1) {
+        currentPage.value--;
+        fetchProducts();
+    }
 };
 
 // Fetch products on component mount
