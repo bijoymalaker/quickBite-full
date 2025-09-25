@@ -118,7 +118,7 @@
                       </Link>
                     </div>
                     <div class="col-md-3 mb-2">
-                      <Link :href="route('restaurants.create')" class="btn btn-success w-100">
+                      <Link :href="route('restaurants.edit', { restaurant: restaurant?.id })" class="btn btn-success w-100">
                       <i class="fas fa-edit me-2"></i>Edit Restaurant
                       </Link>
                     </div>
@@ -145,7 +145,7 @@
 </template>
 
 <script setup>
-import Layout from '../../layout/Layout.vue';
+import Layout from '@/layout/Layout.vue';
 import { Link } from '@inertiajs/vue3';
 import { route } from 'ziggy-js';
 import { onMounted } from 'vue';
