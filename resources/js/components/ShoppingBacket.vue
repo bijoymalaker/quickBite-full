@@ -70,21 +70,33 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '@/store/cartStore';
 import { router } from '@inertiajs/vue3';
+import axios from 'axios';
 
 const cartStore = useCartStore();
 
 const showAlert = ref(false);
 const discount = ref(3.00);
-const deliveryFee = ref(2.50);
+const deliveryFee = ref(0);
 const minimumDelivery = ref(20);
 const deliveryTime = ref("18:00");
 
 const cart = computed(() => cartStore.items);
 const subTotal = computed(() => cartStore.cartTotal);
 const total = computed(() => subTotal.value - discount.value + deliveryFee.value);
+
+onMounted(() => {
+  if (cartStore.items.length > 0) {
+    const restaurantId = cartStore.items[0].restaurant_id;
+    axios.get(`/api/restaurants/${restaurantId}`).then(response => {
+      deliveryFee.value = parseFloat(response.data.delivery_fee);
+    }).catch(error => {
+      console.error('Error fetching restaurant:', error);
+    });
+  }
+});
 
 const removeItem = (itemId) => {
   cartStore.removeItem(itemId);

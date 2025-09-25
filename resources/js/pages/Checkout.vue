@@ -93,15 +93,16 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import Layout from '@/layout/Layout.vue';
 import { useCartStore } from '@/store/cartStore';
 import { router } from '@inertiajs/vue3';
+import axios from 'axios';
 
 const cart = useCartStore();
 
 const discount = ref(3.00);
-const deliveryFee = ref(2.50);
+const deliveryFee = ref(0);
 const isSubmitting = ref(false);
 const billing = reactive({
   name: '',
@@ -115,7 +116,18 @@ const total = computed(() => {
   return cart.cartTotal - discount.value + deliveryFee.value;
 });
 
-  const placeOrder = () => {
+onMounted(() => {
+  if (cart.items.length > 0) {
+    const restaurantId = cart.items[0].restaurant_id;
+    axios.get(`/api/restaurants/${restaurantId}`).then(response => {
+      deliveryFee.value = parseFloat(response.data.delivery_fee);
+    }).catch(error => {
+      console.error('Error fetching restaurant:', error);
+    });
+  }
+});
+
+const placeOrder = () => {
     isSubmitting.value = true;
 
     if (billing.paymentMethod === 'card') {

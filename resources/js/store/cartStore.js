@@ -25,7 +25,8 @@ export const useCartStore = defineStore('cart', {
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        this.items.push({ ...item, quantity: 1 });
+        // Ensure restaurant_id is included in the cart item
+        this.items.push({ ...item, quantity: 1, restaurant_id: item.restaurant_id });
       }
       
       this.total = this.items.reduce((total, item) => {
