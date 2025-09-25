@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
 class TrackingController extends Controller
@@ -22,7 +23,17 @@ class TrackingController extends Controller
             return response()->json(['error' => 'Order not found'], 404);
         }
 
+        // Fetch restaurant names for the items
+        $restaurantIds = collect($order->items)->pluck('restaurant_id')->unique()->filter();
+        $restaurants = Restaurant::whereIn('id', $restaurantIds)->pluck('name', 'id');
+
         // Format the order data for the frontend
+        $formattedItems = collect($order->items ?: [])->map(function ($item) use ($restaurants) {
+            return array_merge($item, [
+                'restaurant_name' => $restaurants[$item['restaurant_id']] ?? 'Unknown Restaurant',
+            ]);
+        })->toArray();
+
         $formattedOrder = [
             'orderNumber' => $order->transaction_id ?: $order->id,
             'orderDate' => $order->created_at,
@@ -33,7 +44,7 @@ class TrackingController extends Controller
             'customerPhone' => $order->phone,
             'deliveryAddress' => $order->address,
             'deliveryMethod' => $order->payment_method === 'cash' ? 'Cash on Delivery' : 'Online Payment',
-            'items' => $order->items ?: [],
+            'items' => $formattedItems,
             'progress' => $order->progress ?: $this->getDefaultProgress($order),
         ];
 

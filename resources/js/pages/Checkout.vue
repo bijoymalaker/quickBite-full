@@ -9,6 +9,7 @@
               <h5 class="mb-0"><font-awesome-icon icon="fa-solid fa-receipt" class="me-2" /> Order Summary</h5>
             </div>
             <div class="card-body">
+              <h2>{{ restaurantName }}</h2>
               <div v-for="(item, index) in cart.items" :key="index" class="d-flex justify-content-between align-items-center mb-3">
                 <div>
                   <strong>{{ item.quantity }}x</strong> {{ item.name }} <br />
@@ -104,6 +105,7 @@ const cart = useCartStore();
 const discount = ref(3.00);
 const deliveryFee = ref(0);
 const isSubmitting = ref(false);
+const restaurantName = ref('');
 const billing = reactive({
   name: '',
   email: '',
@@ -121,6 +123,7 @@ onMounted(() => {
     const restaurantId = cart.items[0].restaurant_id;
     axios.get(`/api/restaurants/${restaurantId}`).then(response => {
       deliveryFee.value = parseFloat(response.data.delivery_fee);
+      restaurantName.value = response.data.name;
     }).catch(error => {
       console.error('Error fetching restaurant:', error);
     });

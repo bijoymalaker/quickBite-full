@@ -13,6 +13,7 @@
                 <!-- Order Header -->
                 <div class="order-header">
                     <div class="order-info">
+                        <h1>{{ currentOrder.items[0]?.restaurant_name }}</h1>
                         <h2>Order #{{ currentOrder.orderNumber }}</h2>
                         <p class="order-date">Placed on {{ formatDate(currentOrder.orderDate) }}</p>
                         <span :class="['status-badge', currentOrder.status.toLowerCase()]">
