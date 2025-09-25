@@ -41,7 +41,7 @@
                         <li class="nav-item dropdown" v-if="user.role === 'restaurant'">
                         <Link :href="route('dashboard')" class="nav-link dropdown-toggle login-signup-btn" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ user.name }}</Link>
+                        {{ user.name.length > 10 ? user.name.slice(0,5) + '' : user.name }}</Link>
                         <ul class="dropdown-menu">
                             <li>
                                 <Link :href="route('restaurant.dashboard')" class="dropdown-item me-2">Dashboard</Link>
