@@ -37,7 +37,7 @@
 
       <div class="container">
         <div class="row my-4 align-items-baseline">
-          <div class="col-12 col-md-4 mb-3 mb-md-0">
+          <div class="col-12 col-md-4 mb-3 mb-md-0 sidebar-sticky" >
             <h1 class=" text-center">Menus</h1>
             <div class="d-md-none">
               <select class="form-select" v-model="selectFoodCategory">

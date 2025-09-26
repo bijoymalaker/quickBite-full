@@ -114,7 +114,10 @@
 
                                 <div class="d-flex justify-content-between">
                                     <button type="button" @click="router.visit('/restaurants')" class="btn btn-secondary">Cancel</button>
-                                    <button type="submit" class="btn btn-primary" :disabled="submitting"> 
+                                    <button type="button" class="btn btn-danger" @click="deleteRestaurant" :disabled="submitting">
+                                        Delete
+                                    </button>
+                                    <button type="submit" class="btn btn-primary" :disabled="submitting">
                                         <span v-if="submitting">Updating...</span>
                                         <span v-else>Update Restaurant</span>
                                     </button>
@@ -245,6 +248,25 @@ const submitForm = async () => {
 onMounted(() => {
     document.title = 'Edit Restaurant - QuickBite'
 })
+
+// Delete handler extracted from inline template
+const deleteRestaurant = async () => {
+    if (!confirm('Are you sure you want to delete this restaurant? This action cannot be undone.')) {
+        return
+    }
+
+    submitting.value = true
+
+    try {
+        await axios.delete(`/api/restaurants/${restaurant.id}`)
+        router.visit('/restaurants')
+    } catch (err) {
+        // keep it simple for now
+        alert('Failed to delete the restaurant.')
+    } finally {
+        submitting.value = false
+    }
+}
 </script>
 
 <style scoped>
