@@ -137,6 +137,9 @@ Route::delete('products/{product}', [ProductController::class, 'destroy'])->name
 // API route for menu products
 Route::get('api/menu-products', [ProductController::class, 'menuProducts'])->name('api.menu-products');
 
+// API route for categories
+Route::get('api/categories', [ProductController::class, 'getCategories'])->name('api.categories');
+
 
 
 

@@ -146,4 +146,15 @@ class ProductController extends Controller
         $foods = Product::where('restaurant_id', $restaurantId)->get();
         return response()->json($foods);
     }
+
+    /**
+     * Get unique categories with product counts.
+     */
+    public function getCategories()
+    {
+        $categories = Product::select('category', \Illuminate\Support\Facades\DB::raw('count(*) as count'))
+            ->groupBy('category')
+            ->get();
+        return response()->json($categories);
+    }
 }

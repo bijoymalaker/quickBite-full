@@ -3,6 +3,7 @@ import { createInertiaApp, router } from '@inertiajs/vue3'
 import { createPinia } from 'pinia'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap'
+import 'vue3-carousel/dist/carousel.css'
 import './style.css'
 
 import NProgress from 'nprogress'

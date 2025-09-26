@@ -1,4 +1,6 @@
 <script setup>
+import axios from 'axios';
+
 // Restaurants name and image
 import Rectangle7 from '../assets/imgs/Rectangle7.png';
 import Rectangle8 from '../assets/imgs/Rectangle8.png';
@@ -35,6 +37,9 @@ const resName = ref([
     },
 ]);
 
+const products = ref([]);
+const selectedCategory = ref('All');
+
 // Props
 defineProps({
     restaurants: {
@@ -43,9 +48,25 @@ defineProps({
     }
 });
 
+// Methods
+const fetchProducts = async () => {
+    try {
+        const response = await axios.get(`/api/menu-products?category=${selectedCategory.value}`);
+        products.value = response.data.data;
+    } catch (error) {
+        console.error('Error fetching products:', error);
+    }
+};
+
+const filterProducts = (category) => {
+    selectedCategory.value = category;
+    fetchProducts();
+};
+
 // Lifecycle
 onMounted(() => {
     document.title = 'Home - Pretty Picks';
+    fetchProducts();
 });
 
 </script>
@@ -138,7 +159,7 @@ onMounted(() => {
                 </div>
             </section>
 
-            <Categories />
+            <Categories @select-category="filterProducts" />
             <ResCaro :restaurants="restaurants" />
             <Add />
             <AboutUs />

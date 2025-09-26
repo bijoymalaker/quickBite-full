@@ -23,9 +23,6 @@
                         <Link :href="route('menus')" class="nav-link" :class="{ active: route().current('menus') }">
                         Menus</Link>
                     </li>
-                    <!-- <li class="nav-item">
-              <Link :href="route('offers')" class="nav-link" :class="{ active: route().current('offers') }">Offers</Link>
-            </li> -->
                     <li class="nav-item">
                         <Link :href="route('restaurants.index')" class="nav-link"
                             :class="{ active: route().current('restaurants.index') }">Restaurants</Link>
@@ -52,8 +49,6 @@
                             </li>
                         </ul>
                     </li>
-
-                    <!-- <Link v-else :href="route('products.index')" class="login-signup-btn me-2">Products</Link> -->
 
                     <li class="nav-item dropdown" v-else-if="user.role === 'customer'">
                         <Link :href="route('dashboard')" class="nav-link dropdown-toggle" href="#" role="button"

@@ -22,12 +22,12 @@
 
     </div>
 </template>
+
 <script setup>
-import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide } from "vue3-carousel";
 import { Link } from '@inertiajs/vue3'
 
-defineProps({
+const props = defineProps({
     restaurants: {
         type: Array,
         required: true
