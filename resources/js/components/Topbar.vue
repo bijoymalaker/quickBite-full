@@ -22,7 +22,7 @@
 
             <div class="col-md-4">
                 <!-- Cart Section -->
-                <div class="cart-info topbar-font" v-if="user">
+                <div class="cart-info topbar-font justify-content-center" v-if="user">
                     <Link :href="route('checkout')" class="text-decoration-none text-dark d-flex align-items-center justify-content-end">
                         <span class="cart-icon px-3"><font-awesome-icon icon="fa-solid fa-basket-shopping" class="text-white"/></span>
                     <!-- Emoji or icon for the cart -->

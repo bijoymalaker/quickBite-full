@@ -7,13 +7,14 @@
                 <Carousel :items-to-show="5" :pagination="true" :navigation="true"
                     :breakpoints="{ 0: { itemsToShow: 1 }, 640: { itemsToShow: 2 }, 768: { itemsToShow: 3 }, 1024: { itemsToShow: 5 } }">
                     <slide v-for="restaurant in restaurants" :key="restaurant.id">
+                        <Link :href="`/restaurants/${restaurant.id}/foods`" class="text-decoration-none">
                         <div class="card category-card g-3">
                             <img :src="restaurant.image ? '/storage/' + restaurant.image : 'https://via.placeholder.com/400x300'"
                                 :alt="restaurant.name">
                             <div class="card-body text-center pp-res">
                                 <p class="category-name text-white">{{ restaurant.name }}</p>
                             </div>
-                        </div>
+                        </div></Link>
                     </slide>
                 </Carousel>
             </div>
@@ -24,6 +25,7 @@
 <script setup>
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide } from "vue3-carousel";
+import { Link } from '@inertiajs/vue3'
 
 defineProps({
     restaurants: {

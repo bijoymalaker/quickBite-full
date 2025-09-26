@@ -3,8 +3,8 @@
     <nav class="navbar navbar-expand-lg sticky-top bg-white py-0 shadow-sm">
         <div class="container">
             <!-- Logo and Brand Name -->
-            <Link class="navbar-brand" href="/">
-            <img src="../assets/imgs/quickbiteLogo_noBG.png" alt="Logo" class="h-50" />QuickBite</Link>
+            <Link class="navbar-brand" href="/"> <img src="../assets/imgs/quickbiteLogo_noBG.png" alt="Logo"
+                class="h-50" />QuickBite</Link>
 
             <!-- Toggle Button for Mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -37,11 +37,11 @@
                 </ul>
 
                 <!-- Login/Signup or Dashboard/Logout Buttons -->
-                <div v-if="user" class="d-flex align-items-center ms-lg-3">
-                        <li class="nav-item dropdown" v-if="user.role === 'restaurant'">
-                        <Link :href="route('dashboard')" class="nav-link dropdown-toggle login-signup-btn" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ user.name.length > 10 ? user.name.slice(0,5) + '' : user.name }}</Link>
+                <ul v-if="user" class="navbar-nav mb-lg-0 mb-3">
+                    <li class="nav-item dropdown" v-if="user.role === 'restaurant'">
+                        <Link :href="route('dashboard')" class="nav-link dropdown-toggle login-signup-btn" href="#"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ user.name.length > 10 ? user.name.slice(0, 5) + '' : user.name }}</Link>
                         <ul class="dropdown-menu">
                             <li>
                                 <Link :href="route('restaurant.dashboard')" class="dropdown-item me-2">Dashboard</Link>
@@ -52,11 +52,9 @@
                             </li>
                         </ul>
                     </li>
-                        
-                        
+
                     <!-- <Link v-else :href="route('products.index')" class="login-signup-btn me-2">Products</Link> -->
 
-                    
                     <li class="nav-item dropdown" v-else-if="user.role === 'customer'">
                         <Link :href="route('dashboard')" class="nav-link dropdown-toggle" href="#" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -71,13 +69,13 @@
                             </li>
                         </ul>
                     </li>
-                </div>
-                <div v-else class="d-flex align-items-center ms-lg-3">
+                </ul>
+                <ul v-else class="navbar-nav mb-lg-0 mb-3">
                     <Link :href="route('login')" class="login-signup-btn me-2"><font-awesome-icon
                         icon="fa-solid fa-person-circle-plus" class="text-warning me-2" />Login/Signup</Link>
                     <Link :href="route('restaurant.login')" class="login-signup-btn" style="background-color: #28a745">
                     <font-awesome-icon icon="fa-solid fa-utensils" class="me-2" />Restaurant Login</Link>
-                </div>
+                </ul>
             </div>
         </div>
     </nav>
@@ -92,7 +90,6 @@ import { route } from 'ziggy-js';
 const user = computed(() => (usePage().props.auth && usePage().props.auth.user ? usePage().props.auth.user : null));
 // const cart = useCartStore();
 </script>
-
 
 <style scoped>
 .nav-item .nav-link.active {
