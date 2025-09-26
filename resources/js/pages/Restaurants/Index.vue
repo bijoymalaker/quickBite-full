@@ -166,7 +166,6 @@ const toggleRestaurantStatus = () => {
 
 <style scoped>
 .sidebar {
-  min-height: 100vh;
   background-color: #f8f9fa;
   border-right: 1px solid #dee2e6;
 }
@@ -204,5 +203,17 @@ const toggleRestaurantStatus = () => {
 
 .btn {
   border-radius: 0.375rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .sidebar-sticky{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 3.5rem;
+    height: calc(100vh - 3.5rem);
+    padding-top: 1rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 </style>

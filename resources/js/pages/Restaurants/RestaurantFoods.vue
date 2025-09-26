@@ -5,7 +5,7 @@
       <div class="container my-4">
         <div class="d-flex justify-content-center mb-4">
           <Link href="/restaurants" class="btn btn-primary me-2">Back to Restaurants</Link>
-          <Link :href="`/foods/create?restaurant=${restaurantId}`" class="btn btn-success">Add New Food Item</Link>
+          <Link :href="route('products.create')" class="btn btn-success">Add New Food Item</Link>
         </div>
       </div>
 
@@ -95,6 +95,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
+import { route } from 'ziggy-js'
 import axios from 'axios'
 import Layout from '@/layout/Layout.vue'
 import { useCartStore } from '@/store/cartStore'
