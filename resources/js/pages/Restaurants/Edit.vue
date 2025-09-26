@@ -36,7 +36,28 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">Cuisine Type</label>
-                                    <input v-model="form.cuisine_type" type="text" class="form-control" :class="{ 'is-invalid': errors.cuisine_type }">
+                                    <select v-model="form.cuisine_type" class="form-control" :class="{ 'is-invalid': errors.cuisine_type }" required>
+                                        <option value="">Select Cuisine Type</option>
+                                        <option value="Biryani">Biryani</option>
+                                        <option value="Fried Chicken">Fried Chicken</option>
+                                        <option value="Noodles">Noodles</option>
+                                        <option value="Sushi">Sushi</option>
+                                        <option value="Shawarma">Shawarma</option>
+                                        <option value="Chinese">Chinese</option>
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Kebab">Kebab</option>
+                                        <option value="Ice Cream">Ice Cream</option>
+                                        <option value="Soups">Soups</option>
+                                        <option value="Sweets">Sweets</option>
+                                        <option value="Chicken">Chicken</option>
+                                        <option value="Pasta">Pasta</option>
+                                        <option value="Snacks">Snacks</option>
+                                        <option value="TehariKhichuri">TehariKhichuri</option>
+                                        <option value="Cafe">Cafe</option>
+                                        <option value="Burgers">Burgers</option>
+                                        <option value="Cakes">Cakes</option>
+                                        <option value="Pizza">Pizza</option>
+                                    </select>
                                     <div class="invalid-feedback" v-if="errors.cuisine_type">{{ errors.cuisine_type[0] }}</div>
                                 </div>
 
