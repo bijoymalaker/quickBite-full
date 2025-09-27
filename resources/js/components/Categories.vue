@@ -8,7 +8,7 @@
         <!-- Categories Carousel -->
 
         <Carousel :itemsToShow="4.5" :pagination="true" :navigation="true"
-          :breakpoints="{0: {itemsToShow:1}, 640: { itemsToShow: 2 }, 768: { itemsToShow: 3 }, 1024: { itemsToShow: 4 } }">
+          :breakpoints="{0: {itemsToShow:1}, 640: { itemsToShow: 2 }, 768: { itemsToShow: 3 }, 1024: { itemsToShow: 5 } }">
           <Slide key="1" v-for="category in categories" :key="category.name" class="item">
             <div class="card category-card" @click="selectCategory(category.name)">
               <img :src="category.img" :alt="category.name" class="card-img-top" />
@@ -47,12 +47,24 @@ export default {
     const categories = ref([]);
 
     const imageMap = {
-      "Burgers & Fast food": Rectangle13,
-      "Salads": Rectangle15,
-      "Pasta & Casuals": Rectangle17,
-      "Pizza": Rectangle19,
-      "Breakfast": Rectangle21,
+      "Biryani": Rectangle13,
+      "Fried Chicken": Rectangle15,
+      "Noodles": Rectangle17,
+      "Sushi": Rectangle19,
+      "Shawarma": Rectangle21,
+      "Breakfast": Rectangle23,
+      "Kebab": Rectangle23,
+      "Ice Cream": Rectangle23,
       "Soups": Rectangle23,
+      "Sweets": Rectangle23,
+      "Chicken": Rectangle23,
+      "Pasta": Rectangle23,
+      "Snacks": Rectangle23,
+      "TehariKhichuri": Rectangle23,
+      "Cafe": Rectangle23,
+      "Burgers": Rectangle23,
+      "Cakes": Rectangle23,
+      "Pizza": Rectangle23,
     };
 
     const fetchCategories = async () => {

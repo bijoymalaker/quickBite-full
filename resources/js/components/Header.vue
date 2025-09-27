@@ -19,10 +19,10 @@
                         <Link :href="route('home')" class="nav-link" :class="{ active: route().current('home') }">Home
                         </Link>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <Link :href="route('menus')" class="nav-link" :class="{ active: route().current('menus') }">
                         Menus</Link>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <Link :href="route('restaurants.index')" class="nav-link"
                             :class="{ active: route().current('restaurants.index') }">Restaurants</Link>

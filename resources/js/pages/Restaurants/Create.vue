@@ -30,29 +30,15 @@
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label">Cuisine Type</label>
-                  <select v-model="form.cuisine_type" class="form-control" required>
-                    <option value="">Select Cuisine Type</option>
-                    <option value="Biryani">Biryani</option>
-                    <option value="Fried Chicken">Fried Chicken</option>
-                    <option value="Noodles">Noodles</option>
-                    <option value="Sushi">Sushi</option>
-                    <option value="Shawarma">Shawarma</option>
-                    <option value="Chinese">Chinese</option>
-                    <option value="Breakfast">Breakfast</option>
-                    <option value="Kebab">Kebab</option>
-                    <option value="Ice Cream">Ice Cream</option>
-                    <option value="Soups">Soups</option>
-                    <option value="Sweets">Sweets</option>
-                    <option value="Chicken">Chicken</option>
-                    <option value="Pasta">Pasta</option>
-                    <option value="Snacks">Snacks</option>
-                    <option value="TehariKhichuri">TehariKhichuri</option>
-                    <option value="Cafe">Cafe</option>
-                    <option value="Burgers">Burgers</option>
-                    <option value="Cakes">Cakes</option>
-                    <option value="Pizza">Pizza</option>
-                  </select>
+                  <label class="form-label">Cuisine Types</label>
+                  <div class="row">
+                    <div class="col-6 mb-2" v-for="cuisine in cuisines" :key="cuisine">
+                      <div class="form-check">
+                        <input type="checkbox" :id="'cuisine-' + cuisine" :value="cuisine" v-model="form.cuisine_types" class="form-check-input">
+                        <label :for="'cuisine-' + cuisine" class="form-check-label">{{ cuisine }}</label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="mb-3">
@@ -108,12 +94,34 @@ import { router } from '@inertiajs/vue3'
 import Layout from '@/layout/Layout.vue'
 import axios from 'axios'
 
+const cuisines = [
+  'Biryani',
+  'Fried Chicken',
+  'Noodles',
+  'Sushi',
+  'Shawarma',
+  'Chinese',
+  'Breakfast',
+  'Kebab',
+  'Ice Cream',
+  'Soups',
+  'Sweets',
+  'Chicken',
+  'Pasta',
+  'Snacks',
+  'TehariKhichuri',
+  'Cafe',
+  'Burgers',
+  'Cakes',
+  'Pizza'
+]
+
 const form = ref({
   name: '',
   email: '',
   phone: '',
   address: '',
-  cuisine_type: '',
+  cuisine_types: [],
   delivery_fee: 0,
   minimum_order: 0,
   opening_time: '',
@@ -140,6 +148,8 @@ const submitForm = async () => {
       } else if (key === 'is_open') {
         // Convert boolean to integer for proper FormData handling
         formData.append(key, form.value[key] ? '1' : '0')
+      } else if (key === 'cuisine_types') {
+        formData.append(key, JSON.stringify(form.value[key]))
       } else if (form.value[key] !== null && form.value[key] !== '') {
         formData.append(key, form.value[key])
       }

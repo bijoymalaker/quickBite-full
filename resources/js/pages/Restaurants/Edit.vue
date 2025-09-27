@@ -35,30 +35,16 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Cuisine Type</label>
-                                    <select v-model="form.cuisine_type" class="form-control" :class="{ 'is-invalid': errors.cuisine_type }" required>
-                                        <option value="">Select Cuisine Type</option>
-                                        <option value="Biryani">Biryani</option>
-                                        <option value="Fried Chicken">Fried Chicken</option>
-                                        <option value="Noodles">Noodles</option>
-                                        <option value="Sushi">Sushi</option>
-                                        <option value="Shawarma">Shawarma</option>
-                                        <option value="Chinese">Chinese</option>
-                                        <option value="Breakfast">Breakfast</option>
-                                        <option value="Kebab">Kebab</option>
-                                        <option value="Ice Cream">Ice Cream</option>
-                                        <option value="Soups">Soups</option>
-                                        <option value="Sweets">Sweets</option>
-                                        <option value="Chicken">Chicken</option>
-                                        <option value="Pasta">Pasta</option>
-                                        <option value="Snacks">Snacks</option>
-                                        <option value="TehariKhichuri">TehariKhichuri</option>
-                                        <option value="Cafe">Cafe</option>
-                                        <option value="Burgers">Burgers</option>
-                                        <option value="Cakes">Cakes</option>
-                                        <option value="Pizza">Pizza</option>
-                                    </select>
-                                    <div class="invalid-feedback" v-if="errors.cuisine_type">{{ errors.cuisine_type[0] }}</div>
+                                    <label class="form-label">Cuisine Types</label>
+                                    <div class="row">
+                                        <div class="col-6 mb-2" v-for="cuisine in cuisines" :key="cuisine">
+                                            <div class="form-check">
+                                                <input type="checkbox" :id="'cuisine-' + cuisine" :value="cuisine" v-model="form.cuisine_types" class="form-check-input">
+                                                <label :for="'cuisine-' + cuisine" class="form-check-label">{{ cuisine }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="invalid-feedback d-block" v-if="errors.cuisine_types">{{ errors.cuisine_types[0] }}</div>
                                 </div>
 
                                 <div class="row">
@@ -157,6 +143,28 @@ const props = defineProps({
     },
 })
 
+const cuisines = [
+  'Biryani',
+  'Fried Chicken',
+  'Noodles',
+  'Sushi',
+  'Shawarma',
+  'Chinese',
+  'Breakfast',
+  'Kebab',
+  'Ice Cream',
+  'Soups',
+  'Sweets',
+  'Chicken',
+  'Pasta',
+  'Snacks',
+  'TehariKhichuri',
+  'Cafe',
+  'Burgers',
+  'Cakes',
+  'Pizza'
+]
+
 const restaurant = props.restaurant
 
 const form = ref({
@@ -164,7 +172,7 @@ const form = ref({
     email: restaurant.email || '',
     phone: restaurant.phone || '',
     address: restaurant.address || '',
-    cuisine_type: restaurant.cuisine_type || '',
+    cuisine_types: restaurant.cuisine_type ? [restaurant.cuisine_type] : [],
     delivery_fee: restaurant.delivery_fee ?? 0,
     minimum_order: restaurant.minimum_order ?? 0,
     opening_time: restaurant.opening_time ? formatTime(restaurant.opening_time) : '',
@@ -207,7 +215,7 @@ const submitForm = async () => {
         formData.append('email', form.value.email || '')
         formData.append('phone', form.value.phone || '')
         formData.append('address', form.value.address || '')
-        formData.append('cuisine_type', form.value.cuisine_type || '')
+        formData.append('cuisine_types', JSON.stringify(form.value.cuisine_types))
         formData.append('delivery_fee', String(form.value.delivery_fee ?? 0))
         formData.append('minimum_order', String(form.value.minimum_order ?? 0))
         formData.append('opening_time', form.value.opening_time || '')
