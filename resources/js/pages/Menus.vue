@@ -83,6 +83,16 @@ const currentPage = ref(1);
 const perPage = 9;
 const totalPages = ref(1);
 
+// Fetch categories from API
+const fetchCategories = async () => {
+    try {
+        const response = await axios.get('/api/categories');
+        categories.value = ["All", ...response.data.map(cat => cat.category)];
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+    }
+};
+
 // Fetch products from API with pagination and category filter
 const fetchProducts = async () => {
     try {
@@ -97,12 +107,6 @@ const fetchProducts = async () => {
         // The paginated response data structure includes data array and meta info
         menu.value = response.data.data;
         totalPages.value = response.data.last_page || 1;
-
-        // Extract unique categories only once on first load or when categories are empty
-        if (categories.value.length === 1) {
-            const uniqueCategories = ["All", ...new Set(response.data.data.map(item => item.category))];
-            categories.value = uniqueCategories;
-        }
     } catch (error) {
         console.error('Error fetching products:', error);
     }
@@ -146,7 +150,9 @@ const prevPage = () => {
 // Fetch products on component mount
 onMounted(() => {
     document.title = 'Menus - QuickBite';
-    fetchProducts();
+    fetchCategories().then(() => {
+        fetchProducts();
+    });
 });
 </script>
 
