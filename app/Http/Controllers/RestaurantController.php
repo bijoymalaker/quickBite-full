@@ -28,7 +28,7 @@ class RestaurantController extends Controller
             'email' => 'required|email|unique:restaurants,email',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:500',
-            'cuisine_type' => 'required|string|max:100',
+            'cuisine_types' => 'required|string',
             'delivery_fee' => 'required|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'is_open' => 'nullable|in:0,1,true,false',
@@ -37,6 +37,18 @@ class RestaurantController extends Controller
             'minimum_order' => 'nullable|numeric|min:0',
             'rating' => 'nullable|numeric|min:0|max:5',
         ]);
+
+        // Decode cuisine_types from JSON string to array
+        $cuisines = json_decode($validated['cuisine_types'], true);
+        if (!is_array($cuisines)) {
+            return response()->json(['message' => 'Invalid cuisine types format'], 422);
+        }
+
+        // Convert array to comma-separated string for storage
+        $validated['cuisine_type'] = implode(',', $cuisines);
+
+        // Remove the temporary cuisine_types field
+        unset($validated['cuisine_types']);
 
         // Handle image upload
         if ($request->hasFile('image')) {

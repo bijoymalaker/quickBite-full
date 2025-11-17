@@ -33,6 +33,7 @@ class Restaurant extends Model
         'rating' => 'decimal:1',
         'opening_time' => 'datetime:H:i',
         'closing_time' => 'datetime:H:i',
+        'cuisine_type' => 'array',
     ];
 
     /**

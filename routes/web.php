@@ -33,7 +33,7 @@ Route::get('restaurants', function () {
 
 Route::get('restaurants/create', function () {
     return Inertia::render('Restaurants/Create');
-})->name('restaurants.create');
+})->middleware(['auth'])->name('restaurants.create');
 
 Route::get('restaurants/{restaurant}/edit', function (App\Models\Restaurant $restaurant) {
     return Inertia::render('Restaurants/Edit', [
