@@ -3,7 +3,7 @@
     <Title>{{ restaurant?.name || 'Restaurant' }} - Food Items</Title>
     <div>
       <div class="container my-4">
-        <div class="d-flex justify-content-center mb-4">
+        <div class="d-flex justify-content-center mb-4" v-if="$page.props.auth.user && $page.props.auth.user.role === 'restaurant'">
           <Link href="/restaurants" class="btn btn-primary me-2">Back to Restaurants</Link>
           <Link :href="route('products.create')" class="btn btn-success">Add New Food Item</Link>
         </div>
