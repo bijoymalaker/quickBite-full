@@ -71,7 +71,7 @@
                       <button class="btn btn-danger" @click="deleteFood(food.id)">Delete</button>
                       <button class="btn btn-warning" @click="addToCart(food)">Add to Cart</button>
                     </div>
-                    <div class="mt-2 d-flex gap-2" v-if="$page.props.auth.user && $page.props.auth.user.role === 'user'">
+                    <div class="mt-2 d-flex gap-2" v-if="$page.props.auth.user && $page.props.auth.user.role === 'customer'">
                       <button class="btn btn-warning" @click="addToCart(food)">Add to Cart</button>
                     </div>
                   </div>
